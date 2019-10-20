@@ -10,7 +10,6 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,8 +20,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -31,12 +28,10 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    // static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 100;
     ImageView mImageView;
-    TextView mTextView;
-    BarcodeDetector mDetector;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // NEW
+        // NEW -- Kieran
         final Button button2 = findViewById(R.id.lookupBarcode);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
             //Glide.with(this).load(imageFilePath).into(mImageView);
 
             Bitmap myBitmap = BitmapFactory.decodeFile(imageFilePath);
-            mImageView.setImageBitmap(myBitmap);
+            // Set image here if viewing it
+            //mImageView.setImageBitmap(myBitmap);
 
             // Setup Barcode Detector
             BarcodeDetector mDetector = new BarcodeDetector.Builder(getApplicationContext())
@@ -112,9 +108,16 @@ public class MainActivity extends AppCompatActivity {
             // Usually iterate but we know only 1 image
             for (int i=0; i < barcodes.size(); i++) {
                 Barcode thisCode = barcodes.valueAt(i);
+                String message = thisCode.rawValue;
+
+                // Create intent to show info
+                Intent intent = new Intent(getApplicationContext(), ShowInfoActivity.class);
+                // mTextView.setText(message);
+                intent.putExtra("com.example.camera.MESSAGE", message);
+                startActivity(intent);
                 //mTextView.append("In here");
-                System.out.println("***************************************************"+thisCode.rawValue);
-                mTextView.setText(thisCode.rawValue);
+                // System.out.println("***************************************************"+thisCode.rawValue);
+                // mTextView.setText(thisCode.rawValue);
             }
         }
     }
