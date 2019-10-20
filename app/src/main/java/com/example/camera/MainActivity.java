@@ -50,6 +50,16 @@ public class MainActivity extends AppCompatActivity {
                 openCameraIntent();
             }
         });
+
+        // NEW
+        final Button button2 = findViewById(R.id.lookupBarcode);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), EnterBarcodeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void openCameraIntent() {
