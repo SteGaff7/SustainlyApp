@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">combined</string>
+    <string name="EnterBarcode">Type Barcode</string>
+    <string name="lookup_barcode">Lookup barcode</string>
+    <string name="results_from_open_food_facts_org">Results from Open Food Facts.org</string>
+    <string name="Fact3">Some fact about product</string>
+    <string name="Fact1">First fact</string>
+    <string name="Fact2">Second fact</string>
 </resources>
