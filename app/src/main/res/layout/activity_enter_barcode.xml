@@ -16,6 +16,8 @@
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
         android:ems="10"
+        android:hint="@string/EnterBarcode"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/Submit"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +30,18 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
-        android:text="Submit"
+        android:text="@string/submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/scan_again"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="116dp"
+        android:layout_marginLeft="116dp"
+        android:layout_marginTop="272dp"
+        android:text="@string/scan_again"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enterText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

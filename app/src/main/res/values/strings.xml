@@ -6,4 +6,6 @@
     <string name="Fact3">Some fact about product</string>
     <string name="Fact1">First fact</string>
     <string name="Fact2">Second fact</string>
+    <string name="scan_again">Scan Again</string>
+    <string name="submit">Submit</string>
 </resources>
