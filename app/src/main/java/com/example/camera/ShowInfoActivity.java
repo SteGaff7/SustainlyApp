@@ -2,6 +2,8 @@ package com.example.camera;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -80,6 +82,16 @@ public class ShowInfoActivity extends AppCompatActivity {
                 }
         );
         requestQueue.add(objectRequest);
+
+        //new map on button click
+        final Button mapsButton = findViewById(R.id.more_info_map);
+        mapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), MapsActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 
