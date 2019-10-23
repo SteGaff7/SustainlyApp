@@ -32,15 +32,15 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal|start"
-            android:text="@string/Fact3" />
+            android:text="@string/manu" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/more_info_manu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:text="@string/more_info_manu" />
+            android:text="@string/more_info" />
 
     </LinearLayout>
 
@@ -57,15 +57,15 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal|start"
-            android:text="@string/Fact1" />
+            android:text="@string/product" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/more_info_brand"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:text="@string/more_info_product" />
+            android:text="@string/more_info" />
     </LinearLayout>
 
     <LinearLayout
@@ -81,15 +81,15 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal|start"
-            android:text="@string/Fact2" />
+            android:text="@string/origin" />
 
         <Button
-            android:id="@+id/more_info_map"
+            android:id="@+id/more_info_origin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:text="@string/more_info_origin" />
+            android:text="@string/more_info" />
     </LinearLayout>
 
 </LinearLayout>

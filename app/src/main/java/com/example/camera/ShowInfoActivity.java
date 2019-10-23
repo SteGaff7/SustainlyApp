@@ -84,11 +84,29 @@ public class ShowInfoActivity extends AppCompatActivity {
         requestQueue.add(objectRequest);
 
         //new map on button click
-        final Button mapsButton = findViewById(R.id.more_info_map);
+        final Button mapsButton = findViewById(R.id.more_info_origin);
         mapsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), MapsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        final Button brandButton = findViewById(R.id.more_info_brand);
+        brandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), BrandInfo.class);
+                startActivity(intent);
+            }
+        });
+
+        final Button productButton = findViewById(R.id.more_info_manu);
+        productButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), ManuInfo.class);
                 startActivity(intent);
             }
         });
