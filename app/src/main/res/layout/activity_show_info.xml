@@ -92,4 +92,12 @@
             android:text="@string/more_info" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/search_nearby"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight=".3"
+        android:layout_gravity="center_horizontal"
+        android:text="Search for Product" />
+
 </LinearLayout>

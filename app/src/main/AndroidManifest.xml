@@ -21,7 +21,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ManuInfo"></activity>
+        <activity android:name=".SearchItems"></activity>
+        <activity android:name=".SearchCategories" />
+        <activity android:name=".ManuInfo" />
         <activity android:name=".BrandInfo" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

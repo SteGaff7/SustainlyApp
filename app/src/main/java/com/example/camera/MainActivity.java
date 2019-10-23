@@ -55,6 +55,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        final Button searchButton = findViewById(R.id.search);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), SearchCategories.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void openCameraIntent() {

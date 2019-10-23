@@ -111,6 +111,14 @@ public class ShowInfoActivity extends AppCompatActivity {
             }
         });
 
+        final Button searchNearbyButton = findViewById(R.id.search_nearby);
+        searchNearbyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), MapsActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
