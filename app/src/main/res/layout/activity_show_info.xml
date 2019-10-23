@@ -19,31 +19,77 @@
         android:background="@drawable/brookelark_unsplash"
         android:text="@string/results_from_open_food_facts_org" />
 
-    <TextView
-        android:id="@+id/originTextView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0px"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center_horizontal|start"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/Fact3" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/brandTextView"
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"
-        android:gravity="center_horizontal|start"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/Fact1" />
+        <TextView
+            android:id="@+id/originTextView"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal|start"
+            android:text="@string/Fact3" />
 
-    <TextView
-        android:id="@+id/manufTextView"
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:text="@string/more_info_manu" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0px"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center_horizontal|start"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/Fact2" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/brandTextView"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal|start"
+            android:text="@string/Fact1" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:text="@string/more_info_product" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/manufTextView"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal|start"
+            android:text="@string/Fact2" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:text="@string/more_info_origin" />
+    </LinearLayout>
 
 </LinearLayout>

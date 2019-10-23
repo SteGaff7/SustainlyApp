@@ -3,12 +3,15 @@
     <string name="EnterBarcode">Scan Barcode</string>
     <string name="lookup_barcode">Type barcode</string>
     <string name="results_from_open_food_facts_org">Results from Open Food Facts.org</string>
-    <string name="Fact3">Some fact about product</string>
-    <string name="Fact1">First fact</string>
-    <string name="Fact2">Second fact</string>
+    <string name="Fact3">Manufacturing Info</string>
+    <string name="Fact1">Product</string>
+    <string name="Fact2">Origin of Ingred</string>
     <string name="scan_again">Scan Again</string>
     <string name="submit">Submit</string>
     <string name="placeholder">PlaceHolder</string>
     <string name="search_button">Search</string>
     <string name="todo">TODO</string>
+    <string name="more_info_origin">More Info</string>
+    <string name="more_info_product">More Info</string>
+    <string name="more_info_manu">More Info</string>
 </resources>
