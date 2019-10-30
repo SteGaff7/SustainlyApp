@@ -1,6 +1,7 @@
 package com.example.camera;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 
 import com.google.android.gms.vision.Frame;
@@ -31,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     static final int REQUEST_TAKE_PHOTO = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 100;
     ImageView mImageView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +64,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Home");
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     private void openCameraIntent() {
