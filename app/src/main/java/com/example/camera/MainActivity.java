@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_TAKE_PHOTO) {
             //don't compare the data to null, it will always come as  null because we are providing a file URI,
             // so load with the imageFilePath we obtained before opening the cameraIntent
-            mImageView = findViewById(R.id.myImageView);
+            // mImageView = findViewById(R.id.myImageView);
             //Glide.with(this).load(imageFilePath).into(mImageView);
 
             Bitmap myBitmap = BitmapFactory.decodeFile(imageFilePath);
