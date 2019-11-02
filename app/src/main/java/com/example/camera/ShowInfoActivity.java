@@ -65,8 +65,6 @@ public class ShowInfoActivity extends AppCompatActivity {
                             brandTextView.setText("Error here: " + e);
                         }
 
-
-
                     }
                 },
                 new Response.ErrorListener() {
@@ -78,22 +76,20 @@ public class ShowInfoActivity extends AppCompatActivity {
                         String barcodeText="Error";
                         BarcodeTextView.setText(barcodeText);
 
-
-
                     }
                 }
         );
         requestQueue.add(objectRequest);
 
-//        //new map on button click
-//        final Button mapsButton = findViewById(R.id.more_info_origin);
-//        mapsButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getBaseContext(), MapsActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        //new map on button click
+        final Button mapsButton = findViewById(R.id.more_info_origin);
+        mapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), MapsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         final Button brandButton = findViewById(R.id.more_info_brand);
         brandButton.setOnClickListener(new View.OnClickListener() {
@@ -113,14 +109,14 @@ public class ShowInfoActivity extends AppCompatActivity {
             }
         });
 
-//        final Button searchNearbyButton = findViewById(R.id.search_nearby);
-//        searchNearbyButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getBaseContext(), MapsActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        final Button searchNearbyButton = findViewById(R.id.search_nearby);
+        searchNearbyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), MapsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
