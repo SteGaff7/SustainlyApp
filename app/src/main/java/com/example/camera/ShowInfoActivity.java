@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+// REDO AS A SERVICE AND ACTIVITY SEPERATE
 
 public class ShowInfoActivity extends AppCompatActivity {
 
@@ -29,6 +30,11 @@ public class ShowInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_info);
 
         Intent intent = getIntent();
+
+        if (intent.hasExtra("com.example.camera.MESSAGE")) {
+            System.out.println("*****************Found a message************************");
+        }
+
         String message = intent.getStringExtra(EnterBarcodeActivity.EXTRA_MESSAGE);
 
         String URL="https://world.openfoodfacts.org/api/v0/product/"+message+".json";
@@ -52,17 +58,30 @@ public class ShowInfoActivity extends AppCompatActivity {
                         Gson json= new Gson();
                         Barcode barcode = json.fromJson(returnedJSON, Barcode.class);
 
-                        try {
-                            String brandText = "Product: " + barcode.getProduct().getProductName();
-                            brandTextView.setText(brandText);
+                        if (barcode.getProduct().getProductName() == null &
+                            barcode.getProduct().getManufacturingPlaces() == null &
+                            barcode.getProduct().getOrigins() == null) {
+                            System.out.println("Null object");
 
-                            String barcodeText = "Manufacturing Location: " + barcode.getProduct().getManufacturingPlaces();
-                            BarcodeTextView.setText(barcodeText);
+                            Intent redirectIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
+                            redirectIntent.putExtra("com.example.camera.FLAG", "2");
+                            startActivity(redirectIntent);
+                        }
 
-                            String brandName = "Origin of ingredients: " + barcode.getProduct().getOrigins();
-                            jsonTextView.setText(brandName);
-                        } catch (Exception e) {
-                            brandTextView.setText("Error here: " + e);
+
+                        else {
+                            try {
+                                String brandText = "Product: " + barcode.getProduct().getProductName();
+                                brandTextView.setText(brandText);
+
+                                String barcodeText = "Manufacturing Location: " + barcode.getProduct().getManufacturingPlaces();
+                                BarcodeTextView.setText(barcodeText);
+
+                                String brandName = "Origin of ingredients: " + barcode.getProduct().getOrigins();
+                                jsonTextView.setText(brandName);
+                            } catch (Exception e) {
+                                brandTextView.setText("Error here: " + e);
+                            }
                         }
 
                     }
