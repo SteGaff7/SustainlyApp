@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 
 public class ShowInfoActivity extends AppCompatActivity {
+    private String location = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class ShowInfoActivity extends AppCompatActivity {
 
                         Gson json= new Gson();
                         Barcode barcode = json.fromJson(returnedJSON, Barcode.class);
+                        location = barcode.getProduct().getManufacturingPlaces();
 
                         try {
                             String brandText = "Product: " + barcode.getProduct().getProductName();
@@ -82,13 +84,13 @@ public class ShowInfoActivity extends AppCompatActivity {
                 }
         );
         requestQueue.add(objectRequest);
-
         //new map on button click
         final Button mapsButton = findViewById(R.id.more_info_map);
         mapsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), MapsActivity.class);
+                intent.putExtra("Location",location);
                 startActivity(intent);
             }
         });
