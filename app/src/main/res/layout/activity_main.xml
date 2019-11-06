@@ -7,8 +7,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/main_background_ver"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/textContent"
@@ -56,7 +62,7 @@
                     android:textSize="20sp" />
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="20dp"
@@ -64,6 +70,7 @@
                     android:textAllCaps="false"
                     android:textSize="20sp" />
             </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
