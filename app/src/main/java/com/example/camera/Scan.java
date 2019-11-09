@@ -3,6 +3,7 @@ package com.example.camera;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,9 +32,7 @@ public class Scan extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         openCameraIntent();
-
     }
 
     String imageFilePath;
@@ -71,65 +70,84 @@ public class Scan extends AppCompatActivity {
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID+".provider", photoFile);
                 pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(pictureIntent, REQUEST_TAKE_PHOTO);
+
+                try {
+                    startActivityForResult(pictureIntent, REQUEST_TAKE_PHOTO);
+                }
+
+                catch (Exception e){
+                    System.out.println("*********Error:" + e);
+                    finish();
+                }
+
             }
         }
     }
 
-
     @Override
     protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+
+        System.out.println("******************" + resultCode);
+
+        // Check which request we're responding to
         if (requestCode == REQUEST_TAKE_PHOTO) {
             //don't compare the data to null, it will always come as  null because we are providing a file URI,
             // so load with the imageFilePath we obtained before opening the cameraIntent
             // mImageView = findViewById(R.id.myImageView);
             //Glide.with(this).load(imageFilePath).into(mImageView);
 
-            Bitmap myBitmap = BitmapFactory.decodeFile(imageFilePath);
-            // Set image here if viewing it
-            //mImageView.setImageBitmap(myBitmap);
+            // Make sure the request was successful
+            if (resultCode == Activity.RESULT_OK) {
 
-            // Setup Barcode Detector
-            BarcodeDetector mDetector = new BarcodeDetector.Builder(getApplicationContext())
-                    .setBarcodeFormats(0)
-                    .build();
+                Bitmap myBitmap = BitmapFactory.decodeFile(imageFilePath);
+                // Set image here if viewing it
+                //mImageView.setImageBitmap(myBitmap);
 
-            TextView mTextView = findViewById(R.id.textContent);
-            if (!mDetector.isOperational()) {
-                mTextView.setText("Could not set up detector");
-                return;
-            }
+                // Setup Barcode Detector
+                BarcodeDetector mDetector = new BarcodeDetector.Builder(getApplicationContext())
+                        .setBarcodeFormats(0)
+                        .build();
 
-            // Frame to pass to detector using bitmap created from image
-            Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
-            SparseArray<com.google.android.gms.vision.barcode.Barcode> barcodes = mDetector.detect(frame);
+                TextView mTextView = findViewById(R.id.textContent);
+                if (!mDetector.isOperational()) {
+                    mTextView.setText("Could not set up detector");
+                    return;
+                }
 
-            System.out.println("OUTSIDE");
-            // Usually iterate but we know only 1 image
+                // Frame to pass to detector using bitmap created from image
+                Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
+                SparseArray<com.google.android.gms.vision.barcode.Barcode> barcodes = mDetector.detect(frame);
 
-            // If barcode result
-            if (barcodes.size() != 0) {
-                for (int i=0; i < barcodes.size(); i++) {
-                    Barcode thisCode = barcodes.valueAt(i);
-                    String message = thisCode.rawValue;
+                System.out.println("OUTSIDE");
+                // Usually iterate but we know only 1 image
 
-                    // Create intent to show info
-                    Intent intent = new Intent(getApplicationContext(), ShowInfoActivity.class);
-                    // mTextView.setText(message);
-                    intent.putExtra("com.example.camera.MESSAGE", message);
-                    startActivity(intent);
-                    //mTextView.append("In here");
-                    // System.out.println("***************************************************"+thisCode.rawValue);
-                    // mTextView.setText(thisCode.rawValue);
+                // If barcode result
+                if (barcodes.size() != 0) {
+                    for (int i = 0; i < barcodes.size(); i++) {
+                        Barcode thisCode = barcodes.valueAt(i);
+                        String message = thisCode.rawValue;
+
+                        // Create intent to show info
+                        Intent intent = new Intent(getApplicationContext(), CheckBarcode.class);
+                        // mTextView.setText(message);
+                        intent.putExtra("com.example.camera.MESSAGE", message);
+                        startActivity(intent);
+                        //mTextView.append("In here");
+                        // System.out.println("***************************************************"+thisCode.rawValue);
+                        // mTextView.setText(thisCode.rawValue);
+                    }
+                }
+
+                // If no barcode then send to enter manual/ rescan barcode
+                else {
+                    Intent redirectIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
+                    redirectIntent.putExtra("com.example.camera.FLAG", "1");
+                    startActivity(redirectIntent);
                 }
             }
-
-            // If no barcode then send to enter manual/ rescan barcode
-            else {
-                Intent redirectIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
-                redirectIntent.putExtra("com.example.camera.FLAG", "1");
-                startActivity(redirectIntent);
-            }
         }
+
+        // New
+        finish();
     }
 }
