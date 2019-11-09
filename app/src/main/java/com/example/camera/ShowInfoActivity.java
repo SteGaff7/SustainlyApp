@@ -10,18 +10,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-
-import org.json.JSONObject;
-
-// REDO AS A SERVICE AND ACTIVITY SEPERATE
-
 public class ShowInfoActivity extends AppCompatActivity {
 
     @Override
@@ -29,76 +17,36 @@ public class ShowInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_info);
 
+        final TextView productTextView =  findViewById(R.id.productTextView);
+        final TextView manuTextView =  findViewById(R.id.manuTextView);
+        final TextView originTextView =  findViewById(R.id.originTextView);
+
         Intent intent = getIntent();
 
-        if (intent.hasExtra("com.example.camera.MESSAGE")) {
-            System.out.println("*****************Found a message************************");
+        String productName = intent.getStringExtra("com.example.camera.INFO-NAME");
+        String manufacturingPlaces = intent.getStringExtra("com.example.camera.INFO-MAN");
+        String origins = intent.getStringExtra("com.example.camera.INFO-ORIGINS");
+
+        if (productName != null) {
+            productTextView.append("\n" + productName);
+        }
+        else {
+            productTextView.append("\nNo information found");
         }
 
-        String message = intent.getStringExtra(EnterBarcodeActivity.EXTRA_MESSAGE);
+        if (manufacturingPlaces != null) {
+            manuTextView.append("\n" + manufacturingPlaces);
+        }
+        else {
+            manuTextView.append("\nNo information found");
+        }
 
-        String URL="https://world.openfoodfacts.org/api/v0/product/"+message+".json";
-
-        RequestQueue requestQueue= Volley.newRequestQueue(this);
-
-        JsonObjectRequest objectRequest= new JsonObjectRequest(
-                Request.Method.GET,
-                URL,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse (JSONObject response) {
-
-                        String returnedJSON=response.toString();
-                        final TextView brandTextView =  findViewById(R.id.brandTextView);
-                        final TextView jsonTextView =  findViewById(R.id.manufTextView);
-                        final TextView BarcodeTextView =  findViewById(R.id.originTextView);
-
-
-                        Gson json= new Gson();
-                        Barcode barcode = json.fromJson(returnedJSON, Barcode.class);
-
-                        if (barcode.getProduct().getProductName() == null &
-                            barcode.getProduct().getManufacturingPlaces() == null &
-                            barcode.getProduct().getOrigins() == null) {
-                            System.out.println("Null object");
-
-                            Intent redirectIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
-                            redirectIntent.putExtra("com.example.camera.FLAG", "2");
-                            startActivity(redirectIntent);
-                        }
-
-
-                        else {
-                            try {
-                                String brandText = "Product: " + barcode.getProduct().getProductName();
-                                brandTextView.setText(brandText);
-
-                                String barcodeText = "Manufacturing Location: " + barcode.getProduct().getManufacturingPlaces();
-                                BarcodeTextView.setText(barcodeText);
-
-                                String brandName = "Origin of ingredients: " + barcode.getProduct().getOrigins();
-                                jsonTextView.setText(brandName);
-                            } catch (Exception e) {
-                                brandTextView.setText("Error here: " + e);
-                            }
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse (VolleyError error) {
-
-                        final TextView BarcodeTextView =  findViewById(R.id.brandTextView);
-
-                        String barcodeText="Error";
-                        BarcodeTextView.setText(barcodeText);
-
-                    }
-                }
-        );
-        requestQueue.add(objectRequest);
+        if (origins != null) {
+            originTextView.append("\n" + origins);
+        }
+        else {
+            originTextView.append("\nNo information found");
+        }
 
         //new map on button click
         final Button mapsButton = findViewById(R.id.more_info_origin);
@@ -144,6 +92,8 @@ public class ShowInfoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
     }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here

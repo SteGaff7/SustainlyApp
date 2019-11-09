@@ -1,19 +1,24 @@
 package com.example.camera;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.SparseArray;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -28,10 +33,12 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class EnterBarcodeActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.example.camera.MESSAGE";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,22 +48,53 @@ public class EnterBarcodeActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         if (intent.hasExtra("com.example.camera.FLAG")) {
-            System.out.println("*****************Found a flag, redirected here************************");
-            // Create a pop up to say barcode could not be scanned (Toast)
-            System.out.println("Found Redirect Intent with code");
-            System.out.println(intent.getStringExtra("com.example.camera.FLAG"));
+            String flag = intent.getStringExtra("com.example.camera.FLAG");
+            System.out.println("************** Redirected here, flag is " + flag);
+
+            CharSequence toastText;
+            switch (flag) {
+                case "1": {
+                    toastText = "No barcode could be detected, try again " +
+                            "or enter manually!";
+                    System.out.println("******FLAG 1 - No barcode could be detected");
+                    break;
+                }
+                case "2": {
+                    toastText = "No product matching barcode found!";
+                    System.out.println("******FLAG 2 - No product found in DB or API");
+                    break;
+                }
+                case "3": {
+                    toastText = "No information found on this product!";
+                    System.out.println("******FLAG 3 - No appropriate info found on prodcut");
+                    break;
+                }
+                default: {
+                    toastText = "";
+                }
+            }
+
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(getApplicationContext(), toastText, duration);
+            toast.setGravity(Gravity.TOP| Gravity.CENTER_HORIZONTAL, 0, 200);
+            toast.show();
+        }
+
+        else {
+            System.out.println("*********** NO FLAG***************");
         }
 
         // Enter a barcode manually
         final Button button = findViewById(R.id.Submit);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), ShowInfoActivity.class);
+                // Intent intent = new Intent(getBaseContext(), ShowInfoActivity.class);
+                Intent intent = new Intent(getBaseContext(), CheckBarcode.class);
                 EditText editText = (EditText) findViewById(R.id.enterText);
                 String message = editText.getText().toString();
                 intent.putExtra("com.example.camera.MESSAGE", message);
                 startActivity(intent);
-
+                //finish();
             }
         });
 
@@ -67,6 +105,7 @@ public class EnterBarcodeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getBaseContext(), Scan.class);
                 startActivity(intent);
+                //finish();
             }
         });
 
@@ -76,15 +115,10 @@ public class EnterBarcodeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         //toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            //@Override
-            //public void onClick(View v) {
-                //Intent intent = new Intent(getBaseContext(), EnterBarcodeActivity.class);
-                //startActivity(intent);
-            //}
-        //});
 
     }
 
+    // NEEDED????
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here

@@ -21,6 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".CheckBarcode"></activity>
         <activity android:name=".Scan"></activity>
         <activity android:name=".SearchItems" />
         <activity android:name=".SearchCategories" />
