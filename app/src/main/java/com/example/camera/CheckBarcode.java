@@ -2,6 +2,7 @@ package com.example.camera;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
-public class CheckBarcode extends AppCompatActivity {
+public class CheckBarcode extends Activity {
     // /** and enter
 
     @Override
@@ -26,7 +27,7 @@ public class CheckBarcode extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        String message = intent.getStringExtra(EnterBarcodeActivity.EXTRA_MESSAGE);
+        String message = intent.getStringExtra("com.example.camera.MESSAGE");
 
         final ProductOperations productOperations = new ProductOperations(this);
         Barcode generatedBarcode = productOperations.getBarcode(message);
@@ -70,14 +71,11 @@ public class CheckBarcode extends AppCompatActivity {
                                 System.out.println("******STATUS " + barcode.getStatus());
                                 // Redirect to enter barcode page as no product was found
 
-                                //Intent redirectIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
                                 Intent redirectIntent = new Intent();
                                 redirectIntent.putExtra("com.example.camera.FLAG", "2");
-                                //startActivity(redirectIntent);
                                 setResult(RESULT_OK, redirectIntent);
-                                finish();//finishing activity
+                                finish();
 
-                                //finish();
                             } else if (barcode.getStatus() == 1) {
                                 System.out.println("******STATUS " + barcode.getStatus());
                                 String productName = barcode.getProduct().getProductName();
@@ -89,15 +87,11 @@ public class CheckBarcode extends AppCompatActivity {
                                     // Redirect to enter barcode, product found but no appropriate info on it
                                     System.out.println("*******NULL INFO ON OBJECT********");
 
-                                    Intent redirectIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
+                                    Intent redirectIntent = new Intent();
                                     redirectIntent.putExtra("com.example.camera.FLAG", "3");
-                                    startActivity(redirectIntent);
-                                    //finish();
+                                    setResult(RESULT_OK, redirectIntent);
+                                    finish();
 
-//                                    Intent finishIntent = new Intent();
-//                                    //intent.putExtra("MESSAGE",message);
-//                                    setResult(RESULT_OK,finishIntent);
-//                                    finish();//finishing activity
 
                                 } else {
 
@@ -107,17 +101,13 @@ public class CheckBarcode extends AppCompatActivity {
 
                                     // Send info to show info page using intent
                                     System.out.println("*****FOUND SOME INFO********");
-                                    Intent intent = new Intent(getApplicationContext(), ShowInfoActivity.class);
+                                    Intent intent = new Intent();
                                     intent.putExtra("com.example.camera.INFO-NAME", productName);
                                     intent.putExtra("com.example.camera.INFO-MAN", manufacturingPlaces);
                                     intent.putExtra("com.example.camera.INFO-ORIGINS", origins);
-                                    startActivity(intent);
-                                    //finish();
+                                    setResult(RESULT_OK,intent);
+                                    finish();
 
-//                                    Intent finishIntent = new Intent();
-//                                    //intent.putExtra("MESSAGE",message);
-//                                    setResult(RESULT_OK,finishIntent);
-//                                    finish();//finishing activity
 
                                 }
                             }
@@ -131,6 +121,8 @@ public class CheckBarcode extends AppCompatActivity {
                         }
                     }
             );
+
+            // WHAT DOES THIS DO?
             requestQueue.add(objectRequest);
             //finish();
         }
