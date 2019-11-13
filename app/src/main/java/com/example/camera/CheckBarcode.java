@@ -44,7 +44,7 @@ public class CheckBarcode extends AppCompatActivity {
             showInfoIntent.putExtra("com.example.camera.INFO-MAN", manufacturingPlaces);
             showInfoIntent.putExtra("com.example.camera.INFO-ORIGINS", origins);
             startActivity(showInfoIntent);
-            //finish();
+            finish();
         }
 
         else {
@@ -70,9 +70,13 @@ public class CheckBarcode extends AppCompatActivity {
                                 System.out.println("******STATUS " + barcode.getStatus());
                                 // Redirect to enter barcode page as no product was found
 
-                                Intent redirectIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
+                                //Intent redirectIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
+                                Intent redirectIntent = new Intent();
                                 redirectIntent.putExtra("com.example.camera.FLAG", "2");
-                                startActivity(redirectIntent);
+                                //startActivity(redirectIntent);
+                                setResult(RESULT_OK, redirectIntent);
+                                finish();//finishing activity
+
                                 //finish();
                             } else if (barcode.getStatus() == 1) {
                                 System.out.println("******STATUS " + barcode.getStatus());
@@ -89,6 +93,12 @@ public class CheckBarcode extends AppCompatActivity {
                                     redirectIntent.putExtra("com.example.camera.FLAG", "3");
                                     startActivity(redirectIntent);
                                     //finish();
+
+//                                    Intent finishIntent = new Intent();
+//                                    //intent.putExtra("MESSAGE",message);
+//                                    setResult(RESULT_OK,finishIntent);
+//                                    finish();//finishing activity
+
                                 } else {
 
                                     // ? SAVE INSERT INTO DB
@@ -104,6 +114,11 @@ public class CheckBarcode extends AppCompatActivity {
                                     startActivity(intent);
                                     //finish();
 
+//                                    Intent finishIntent = new Intent();
+//                                    //intent.putExtra("MESSAGE",message);
+//                                    setResult(RESULT_OK,finishIntent);
+//                                    finish();//finishing activity
+
                                 }
                             }
 
@@ -117,7 +132,7 @@ public class CheckBarcode extends AppCompatActivity {
                     }
             );
             requestQueue.add(objectRequest);
-            finish();
+            //finish();
         }
 
     }
