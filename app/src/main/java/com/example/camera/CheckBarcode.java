@@ -44,7 +44,7 @@ public class CheckBarcode extends AppCompatActivity {
             showInfoIntent.putExtra("com.example.camera.INFO-MAN", manufacturingPlaces);
             showInfoIntent.putExtra("com.example.camera.INFO-ORIGINS", origins);
             startActivity(showInfoIntent);
-            //finish();
+            finish();
         }
 
         else {
@@ -102,7 +102,7 @@ public class CheckBarcode extends AppCompatActivity {
                                     intent.putExtra("com.example.camera.INFO-MAN", manufacturingPlaces);
                                     intent.putExtra("com.example.camera.INFO-ORIGINS", origins);
                                     startActivity(intent);
-                                    //finish();
+                                    finish();
 
                                 }
                             }
