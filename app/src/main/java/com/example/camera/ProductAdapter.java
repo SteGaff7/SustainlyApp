@@ -21,7 +21,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public TextView nameTextView;
-        public String manuTextView;
+        public TextView manuTextView;
         public String originTextView;
 
 
@@ -31,7 +31,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(itemView);
-            nameTextView = (TextView) itemView.findViewById(R.id.product_name);
+            nameTextView =  itemView.findViewById(R.id.product_name);
+            manuTextView =  itemView.findViewById(R.id.manufacurer_name);
             itemView.setOnClickListener(this);
         }
         /**
@@ -42,7 +43,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
             mOnClickListener.onListItemClick(clickedPosition, nameTextView.getText().toString(),
-                    manuTextView, originTextView);
+                    manuTextView.getText().toString(), originTextView);
         }
     }
 
@@ -81,8 +82,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
         // Set item views based on your views and data model
         TextView textView = viewHolder.nameTextView;
-        textView.setText(product.getProductName());
-        viewHolder.manuTextView=product.getManufacturingPlaces();
+        textView.setText("Product"+": "+product.getProductName());
+        TextView textView1 = viewHolder.manuTextView;
+        textView1.setText("Brand: "+" "+product.getManufacturingPlaces());
         viewHolder.originTextView=product.getOrigins();
     }
 

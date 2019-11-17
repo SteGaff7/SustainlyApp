@@ -59,7 +59,7 @@ public class SearchItems extends AppCompatActivity implements ProductAdapter.Lis
         // Attach the adapter to the recyclerview to populate items
         rvProducts.setAdapter(adapter);
         // Set layout manager to position the items
-        rvProducts.setLayoutManager(new GridLayoutManager(this, 2));
+        rvProducts.setLayoutManager(new LinearLayoutManager(this));
         // That's all!
 
 
@@ -69,7 +69,7 @@ public class SearchItems extends AppCompatActivity implements ProductAdapter.Lis
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         // Get access to the custom title view
         TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
-        mTitle.setText(R.string.choose_cat);
+        mTitle.setText("Fruit");
         TextViewCompat.setTextAppearance(mTitle, R.style.Toolbar_TitleText);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
