@@ -14,6 +14,9 @@ import com.example.camera.Product;
 import com.example.camera.data.ProductContract.ProductEntry;
 import com.example.camera.data.BarcodeDBHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ProductOperations {
     public static final String LOGTAG = "EMP_MNGMNT_SYS";
@@ -101,5 +104,38 @@ public class ProductOperations {
 
         return recordCount;
 
+    }
+
+    // Getting single Barcode
+    public ArrayList<Product> filterCategory(String message) {
+        // Create and/or open a database to read from it
+        SQLiteDatabase database=dbhandler.getReadableDatabase();
+        // Perform a query on the pets table
+        Cursor cursor = database.query(
+                ProductEntry.TABLE_PRODUCTS,
+                allColumns,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+
+        //Objects to be returned
+        ArrayList<Product> products = new ArrayList<>(cursor.getCount());
+        //if item is in the database already
+        if (cursor != null && cursor.getCount()>0) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                Product product = new Product();
+                product.setProductName(cursor.getString(2));
+                product.setManufacturingPlaces(cursor.getString(3));
+                product.setOrigins(cursor.getString(4));
+                products.add(product);
+            }
+            cursor.close();
+            database.close();
+        }
+
+        return products;
     }
 }
