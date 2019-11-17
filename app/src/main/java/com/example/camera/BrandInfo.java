@@ -2,9 +2,11 @@ package com.example.camera;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.TextViewCompat;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class BrandInfo extends AppCompatActivity {
 
@@ -15,9 +17,14 @@ public class BrandInfo extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-
+        // Remove default title text
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // Get access to the custom title view
+        TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(R.string.brand_info);
+        TextViewCompat.setTextAppearance(mTitle, R.style.Toolbar_TitleText);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

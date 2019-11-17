@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.TextViewCompat;
 
 
 public class ShowInfoActivity extends AppCompatActivity {
@@ -30,25 +31,25 @@ public class ShowInfoActivity extends AppCompatActivity {
         String origins = intent.getStringExtra("com.example.camera.INFO-ORIGINS");
 
         if (productName != null) {
-            productTextView.append("\n" + productName);
+            productTextView.setText(productName);
         }
         else {
-            productTextView.append("\nNo information found");
+            productTextView.setText(R.string.error);
         }
 
         if (manufacturingPlaces != null) {
-            manuTextView.append("\n" + manufacturingPlaces);
+            manuTextView.setText(getString(R.string.more_info_manu) + " "+ manufacturingPlaces+ ".");
         }
         else {
-            manuTextView.append("\nNo information found");
+            manuTextView.setText(R.string.manu_error+ ".");
         }
 
 
         if (origins != null) {
-            originTextView.append("\n" + origins);
+            originTextView.setText(getString(R.string.more_info_product) + " "+ manufacturingPlaces+ ".");
         }
         else {
-            originTextView.append("\nNo information found");
+            originTextView.setText(R.string.error);
         }
 
         //new map on button click
@@ -62,38 +63,16 @@ public class ShowInfoActivity extends AppCompatActivity {
             }
         });
 
-        final Button brandButton = findViewById(R.id.more_info_brand);
-        brandButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), BrandInfo.class);
-                startActivity(intent);
-            }
-        });
-
-        final Button productButton = findViewById(R.id.more_info_manu);
-        productButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), ManuInfo.class);
-                startActivity(intent);
-            }
-        });
-
-        final Button searchNearbyButton = findViewById(R.id.search_nearby);
-        searchNearbyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), MapsActivity.class);
-                startActivity(intent);
-            }
-        });
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-
+        // Remove default title text
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // Get access to the custom title view
+        TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(R.string.brand_info);
+        TextViewCompat.setTextAppearance(mTitle, R.style.Toolbar_TitleText);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
 
     }
 

@@ -24,85 +24,56 @@
         android:background="@drawable/brookelark_unsplash"
         android:text="@string/results_from_open_food_facts_org" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/manuTextView"
-            android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal|start"
-            android:text="@string/manu" />
-
-        <Button
-            android:id="@+id/more_info_manu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:text="@string/more_info" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/productTextView"
-            android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal|start"
-            android:text="@string/product" />
-
-        <Button
-            android:id="@+id/more_info_brand"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:text="@string/more_info" />
-    </LinearLayout>
+            android:background="@color/colorWhite"
+            android:fontFamily="sans-serif-medium"
+            android:minHeight="?attr/actionBarSize"
+            android:padding="10sp"
+            android:text="@string/product"
+            android:textColor="@color/darkBlue"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/manuTextView"
+            style="@style/results"
+            android:text="@string/manu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/productTextView" />
 
         <TextView
             android:id="@+id/originTextView"
-            android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal|start"
-            android:text="@string/origin" />
+            style="@style/results"
+            android:text="@string/origin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/manuTextView"
+            app:layout_constraintTop_toBottomOf="@+id/manuTextView" />
 
         <Button
             android:id="@+id/more_info_origin"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:text="@string/more_info" />
-    </LinearLayout>
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/darkBlue"
+            android:text="@string/more_info_origin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/search_nearby"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight=".3"
-        android:layout_gravity="center_horizontal"
-        android:text="Search for Product" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
