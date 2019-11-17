@@ -1,36 +1,27 @@
 package com.example.camera;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
-
 import android.os.Bundle;
-import android.view.MenuInflater;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.TextViewCompat;
 
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.PlaceDetectionClient;
-import com.google.android.gms.location.places.PlaceLikelihood;
-import com.google.android.gms.location.places.PlaceLikelihoodBufferResponse;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,7 +30,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -109,7 +99,7 @@ public class MapsActivity extends AppCompatActivity
 
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_maps);
-     
+
         // Construct a GeoDataClient.
         mGeoDataClient = Places.getGeoDataClient(this, null);
 
@@ -160,8 +150,9 @@ public class MapsActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-                return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
+
     /**
      * Manipulates the map when it's available.
      * This callback is triggered when the map is ready to be used.
@@ -236,18 +227,17 @@ public class MapsActivity extends AppCompatActivity
                             Location startLoc = new Location("point A");
                             startLoc.setLatitude(latLng.latitude);
                             startLoc.setLongitude(latLng.longitude);
-                            float distance = (startLoc.distanceTo(mLastKnownLocation))/1000;
+                            float distance = (startLoc.distanceTo(mLastKnownLocation)) / 1000;
                             float co2 = 0;
                             if (distance >= 200) {
                                 co2 = distance * 135;
-                            }
-                            else {
+                            } else {
                                 co2 = distance * 142;
                             }
-                            TextView tv1 = (TextView)findViewById(R.id.infoText);
+                            TextView tv1 = (TextView) findViewById(R.id.infoText);
                             String setText =
                                     "Your food had to travel " + distance + " km, and " +
-                                            "transporting it that far released " + co2/1000 + " " +
+                                            "transporting it that far released " + co2 / 1000 + " " +
                                             "kg of CO2 into the air. Buy locally grown/sourced " +
                                             "products to increase the sustainability of your food!";
                             tv1.setText(setText);
@@ -256,13 +246,13 @@ public class MapsActivity extends AppCompatActivity
                             Log.e(TAG, "Exception: %s", task.getException());
                             mMap.moveCamera(CameraUpdateFactory
                                     .newLatLngZoom(mDefaultLocation, 4));
-                           // currLoc = mDefaultLocation;
+                            // currLoc = mDefaultLocation;
                             mMap.getUiSettings().setMyLocationButtonEnabled(false);
                         }
                     }
                 });
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
@@ -325,7 +315,7 @@ public class MapsActivity extends AppCompatActivity
                 mLastKnownLocation = null;
                 getLocationPermission();
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }

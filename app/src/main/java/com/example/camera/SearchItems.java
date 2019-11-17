@@ -1,20 +1,17 @@
 package com.example.camera;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.TextViewCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.camera.data.ProductOperations;
 
@@ -39,7 +36,7 @@ public class SearchItems extends AppCompatActivity implements ProductAdapter.Lis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_items);
         //set recyclerView
-        RecyclerView rvProducts = (RecyclerView) findViewById(R.id.rvProducts);
+        RecyclerView rvProducts = findViewById(R.id.rvProducts);
         //items are static and will not change, enabled for significantly smoother scrolling
         rvProducts.setHasFixedSize(true);
 
@@ -63,10 +60,12 @@ public class SearchItems extends AppCompatActivity implements ProductAdapter.Lis
         // That's all!
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.include3);
+        Toolbar toolbar = findViewById(R.id.include3);
         setSupportActionBar(toolbar);
         // Remove default title text
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
         // Get access to the custom title view
         TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
         mTitle.setText("Fruit");

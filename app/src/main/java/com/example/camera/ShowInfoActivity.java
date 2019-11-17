@@ -20,9 +20,9 @@ public class ShowInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_info);
 
-        final TextView productTextView =  findViewById(R.id.productTextView);
-        final TextView manuTextView =  findViewById(R.id.manuTextView);
-        final TextView originTextView =  findViewById(R.id.originTextView);
+        final TextView productTextView = findViewById(R.id.productTextView);
+        final TextView manuTextView = findViewById(R.id.manuTextView);
+        final TextView originTextView = findViewById(R.id.originTextView);
 
         Intent intent = getIntent();
 
@@ -31,24 +31,30 @@ public class ShowInfoActivity extends AppCompatActivity {
         String origins = intent.getStringExtra("com.example.camera.INFO-ORIGINS");
 
         if (productName != null) {
+
+            String[] splited = productName.split("\\s+");
+            if(splited.length>1){
+                productName=splited[1];
+            }
             productTextView.setText(productName);
-        }
-        else {
+        } else {
             productTextView.setText(R.string.error);
         }
 
         if (manufacturingPlaces != null) {
-            manuTextView.setText(getString(R.string.more_info_manu) + " "+ manufacturingPlaces+ ".");
-        }
-        else {
-            manuTextView.setText(R.string.manu_error+ ".");
+            String[] splited = manufacturingPlaces.split("\\s+");
+            if(splited.length>1){
+                manufacturingPlaces=splited[1];
+            }
+            manuTextView.setText(getString(R.string.more_info_manu) + " " + manufacturingPlaces + ".");
+        } else {
+            manuTextView.setText(R.string.manu_error + ".");
         }
 
 
         if (origins != null) {
-            originTextView.setText(getString(R.string.more_info_product) + " "+ manufacturingPlaces+ ".");
-        }
-        else {
+            originTextView.setText(getString(R.string.more_info_product) + " " + origins + ".");
+        } else {
             originTextView.setText(R.string.error);
         }
 
@@ -58,15 +64,17 @@ public class ShowInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), MapsActivity.class);
-                intent.putExtra("Location",location);
+                intent.putExtra("Location", location);
                 startActivity(intent);
             }
         });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         // Remove default title text
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
         // Get access to the custom title view
         TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
         mTitle.setText(R.string.brand_info);

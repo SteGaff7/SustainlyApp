@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FABBBBBBBBBBB</string>
+    <string name="app_name">Camera App</string>
     <string name="results_from_open_food_facts_org">Results from Open Food Facts.org</string>
     <string name="manu">Manufacturing Info</string>
     <string name="product">Product</string>
@@ -15,6 +15,7 @@
     <string name="manu_error">There is no information found about the manufacturing company. </string>
     <string name="more_info_product">The company states that the ingredients for this product are sourced in </string>
     <string name="error">No information found. </string>
+    <string name="detector_error">"Could not set up detector"</string>
 
 
     <!--buttons-->
@@ -22,7 +23,7 @@
     <string name="lookup_barcode">Type barcode</string>
     <string name="scan_again">Scan Again</string>
     <string name="submit">Submit</string>
-    <string name="search_button">Search</string>
+    <string name="search_button">Search Item</string>
     <string name="todo">TODO</string>
     <string name="more_info_origin">See this product\'s carbon footprint</string>
     <string name="title_activity_maps">Food Travel Overview</string>

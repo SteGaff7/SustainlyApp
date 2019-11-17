@@ -1,42 +1,18 @@
 package com.example.camera;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.FileProvider;
 import androidx.core.widget.TextViewCompat;
-
-import com.google.android.gms.vision.Frame;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 public class EnterBarcodeActivity extends AppCompatActivity {
 
@@ -93,7 +69,7 @@ public class EnterBarcodeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Intent intent = new Intent(getBaseContext(), ShowInfoActivity.class);
                 Intent intent = new Intent(getBaseContext(), CheckBarcode.class);
-                EditText editText = (EditText) findViewById(R.id.enterText);
+                EditText editText = findViewById(R.id.enterText);
                 String message = editText.getText().toString();
                 intent.putExtra("com.example.camera.MESSAGE", message);
                 startActivity(intent);
@@ -112,10 +88,12 @@ public class EnterBarcodeActivity extends AppCompatActivity {
             }
         });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         // Remove default title text
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
         // Get access to the custom title view
         TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
         mTitle.setText(R.string.lookup_barcode);
