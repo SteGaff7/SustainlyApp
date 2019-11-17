@@ -123,8 +123,6 @@ public class MapsActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-<<<<<<< HEAD
-
         final FloatingActionButton infoButton = findViewById(R.id.mapInfo);
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,8 +132,6 @@ public class MapsActivity extends AppCompatActivity
             }
         });
 
-=======
->>>>>>> 38af6862a2178265981f6f4cf390922a77410186
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         // Remove default title text
@@ -161,21 +157,6 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
-<<<<<<< HEAD
-=======
-    /**
-     * Sets up the options menu.
-     * @param menu The options menu.
-     * @return Boolean.
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        Log.i("MENU", "FUCK THIS FUCKING THING");
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-        return true;
-    }
->>>>>>> 38af6862a2178265981f6f4cf390922a77410186
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
