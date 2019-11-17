@@ -5,6 +5,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="HeaderBar">
+        <item name="android:background">#303F9F</item>
+    </style>
 
     <style name="buttons" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:textColor">@color/darkBlue</item>

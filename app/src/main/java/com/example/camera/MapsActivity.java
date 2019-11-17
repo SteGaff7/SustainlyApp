@@ -1,9 +1,12 @@
 package com.example.camera;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+
 import android.os.Bundle;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -49,6 +52,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback {
 
+    private Toolbar toolbar;
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
@@ -87,13 +91,14 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("MENU", "FUCK THIS FUCKING TbjkhHING");
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String value = extras.getString("location");
             latLng = new LatLng(42.364506, -71.03888);
             //The key argument here must match that used in the other activity
         }
-
         super.onCreate(savedInstanceState);
 
         // Retrieve location and camera position from saved instance state.
@@ -104,7 +109,7 @@ public class MapsActivity extends AppCompatActivity
 
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_maps);
-
+     
         // Construct a GeoDataClient.
         mGeoDataClient = Places.getGeoDataClient(this, null);
 
@@ -118,6 +123,7 @@ public class MapsActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+<<<<<<< HEAD
 
         final FloatingActionButton infoButton = findViewById(R.id.mapInfo);
         infoButton.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +134,8 @@ public class MapsActivity extends AppCompatActivity
             }
         });
 
+=======
+>>>>>>> 38af6862a2178265981f6f4cf390922a77410186
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         // Remove default title text
@@ -153,6 +161,21 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * Sets up the options menu.
+     * @param menu The options menu.
+     * @return Boolean.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Log.i("MENU", "FUCK THIS FUCKING THING");
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+>>>>>>> 38af6862a2178265981f6f4cf390922a77410186
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
