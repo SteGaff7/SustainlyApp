@@ -30,7 +30,7 @@ public class ShowInfoActivity extends AppCompatActivity {
         String manufacturingPlaces = intent.getStringExtra("com.example.camera.INFO-MAN");
         String origins = intent.getStringExtra("com.example.camera.INFO-ORIGINS");
 
-        if (productName != null) {
+        if (productName != null || productName=="") {
 
             String[] splited = productName.split("\\s+");
             if(splited.length>1){
@@ -41,7 +41,7 @@ public class ShowInfoActivity extends AppCompatActivity {
             productTextView.setText(R.string.error);
         }
 
-        if (manufacturingPlaces != null) {
+        if (manufacturingPlaces != null || manufacturingPlaces=="") {
             String[] splited = manufacturingPlaces.split("\\s+");
             if(splited.length>1){
                 manufacturingPlaces=splited[1];
@@ -52,7 +52,7 @@ public class ShowInfoActivity extends AppCompatActivity {
         }
 
 
-        if (origins != null) {
+        if (origins != null || origins=="") {
             originTextView.setText(getString(R.string.more_info_product) + " " + origins + ".");
         } else {
             originTextView.setText(R.string.error);
