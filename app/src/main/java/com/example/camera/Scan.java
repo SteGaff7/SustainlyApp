@@ -157,6 +157,11 @@ public class Scan extends Activity {
                     finish();
                 }
             }
+
+            // Request not ok
+            else {
+                finish();
+            }
         }
 
         else if (requestCode == CHECK_BARCODE_REQUEST) {
