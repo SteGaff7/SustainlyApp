@@ -2,6 +2,7 @@ package com.example.camera;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +28,7 @@ public class ShowInfoActivity extends AppCompatActivity {
 
         String productName = intent.getStringExtra("com.example.camera.INFO-NAME");
         String manufacturingPlaces = intent.getStringExtra("com.example.camera.INFO-MAN");
-        String origins = intent.getStringExtra("com.example.camera.INFO-ORIGINS");
+        final String origins = intent.getStringExtra("com.example.camera.INFO-ORIGINS");
 
         if (productName != null) {
             productTextView.append("\n" + productName);
@@ -45,6 +46,8 @@ public class ShowInfoActivity extends AppCompatActivity {
 
 
         if (origins != null) {
+            location = origins;
+            Log.i("location", origins);
             originTextView.append("\n" + origins);
         }
         else {

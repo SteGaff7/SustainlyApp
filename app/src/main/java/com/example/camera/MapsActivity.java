@@ -43,6 +43,19 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.util.Iterator;
+
 /**
  * An activity that displays a map showing the place at the device's current location.
  */
@@ -88,22 +101,77 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("MENU", "FUCK THIS FUCKING TbjkhHING");
-
         Bundle extras = getIntent().getExtras();
+        String value = "";
         if (extras != null) {
-            String value = extras.getString("location");
-            latLng = new LatLng(42.364506, -71.03888);
+            value = extras.getString("Location");
+            //latLng = new LatLng(42.364506, -71.03888);
             //The key argument here must match that used in the other activity
         }
+        else {
+            value = "United States";
+        }
         super.onCreate(savedInstanceState);
+        InputStream is = getResources().openRawResource(R.raw.countries);
+        Writer writer = new StringWriter();
+        char[] buffer = new char[1024];
+        try {
+            Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            int n;
+            while ((n = reader.read(buffer)) != -1) {
+                writer.write(buffer, 0, n);
+            }
+        }
+        catch (Exception e) {
+            Log.e("App", "UnsupportedEncodingException");
+        }
+        finally {
+            try {
+                is.close();
+            }
+            catch (Exception e) {
+                Log.e("App", "IO error");
+            }
+        }
+        String jsonString = writer.toString();
+        JSONArray jsonArray = new JSONArray();
+        String latitude = "";
+        String longitude = "";
+        try {
+            jsonArray = new JSONArray(jsonString);
+        }
+        catch (Exception e) {
+            Log.e("App", "JSON error1");
+        }
+        boolean found = false;
+        try {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject country = jsonArray.getJSONObject(i);
+                Log.e("VALS", "Country Error");
+                String countryName = country.getString("name");
+                if (countryName.equals(value)) {
+                    latitude = country.getString("latitude");
+                    longitude = country.getString("longitude");
+                    found = true;
+                }
+
+            }
+        } catch (JSONException e) {
+            Log.e("App", "Json Error2");
+        }
+        if (!found) {
+            latitude = "37.09024";
+            longitude = "-95.712891";
+        }
+        double lat = Double.parseDouble(latitude);
+        double lng = Double.parseDouble(longitude);
+        latLng = new LatLng(lat, lng);
 
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
-
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_maps);
      
@@ -146,7 +214,6 @@ public class MapsActivity extends AppCompatActivity
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.i("MENU", "FUCK THIS FUCKING THING");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
         return true;

@@ -19,20 +19,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context="com.example.camera.MapsActivity" />
+
+        <LinearLayout
+            android:id="@+id/validity"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/infoText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You are not a paid user." />
+        </LinearLayout>
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/validity"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom"
-        android:background="@android:color/white"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/infoText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="You are not a paid user." />
-    </LinearLayout>
 </LinearLayout>
