@@ -1,39 +1,18 @@
 package com.example.camera;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.FileProvider;
-
-import com.google.android.gms.vision.Frame;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
+import androidx.core.widget.TextViewCompat;
 
 public class EnterBarcodeActivity extends AppCompatActivity {
 
@@ -101,8 +80,10 @@ public class EnterBarcodeActivity extends AppCompatActivity {
         final Button button = findViewById(R.id.Submit);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 Intent checkBarcodeIntent = new Intent(getBaseContext(), CheckBarcode.class);
-                EditText editText = (EditText) findViewById(R.id.enterText);
+                EditText editText = findViewById(R.id.enterText);
+
                 String message = editText.getText().toString();
 
                 checkBarcodeIntent.putExtra("com.example.camera.MESSAGE", message);
@@ -122,12 +103,18 @@ public class EnterBarcodeActivity extends AppCompatActivity {
             }
         });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-
+        // Remove default title text
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+        // Get access to the custom title view
+        TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(R.string.lookup_barcode);
+        TextViewCompat.setTextAppearance(mTitle, R.style.Toolbar_TitleText);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
 
     }
 

@@ -6,44 +6,43 @@ public class Product {
     private String origins;
 
 
-
-    public Product(String product_name_en, String manufacturing_places, String origins){
-        this.product_name_en=product_name_en;
-        this.manufacturing_places=manufacturing_places;
-        this.origins=origins;
+    public Product(String product_name_en, String manufacturing_places, String origins) {
+        this.product_name_en = product_name_en;
+        this.manufacturing_places = manufacturing_places;
+        this.origins = origins;
 
     }
+
     public Product() {
 
     }
 
-    public String getProductName(){
+    public String getProductName() {
 
         return product_name_en;
     }
 
-    public void setProductName(String product_name_en){
-        this.product_name_en=product_name_en;
+    public void setProductName(String product_name_en) {
+        this.product_name_en = product_name_en;
     }
 
-    public String getManufacturingPlaces(){
+    public String getManufacturingPlaces() {
 
         return manufacturing_places;
     }
 
-    public void setManufacturingPlaces(String manufacturing_places){
-        this.manufacturing_places=manufacturing_places;
+    public void setManufacturingPlaces(String manufacturing_places) {
+        this.manufacturing_places = manufacturing_places;
     }
 
-    public String getOrigins(){
+    public String getOrigins() {
 
         return origins;
     }
 
-    public void setOrigins(String origins){
-        this.origins=origins;
+    public void setOrigins(String origins) {
+        this.origins = origins;
     }
-
 
 
 }

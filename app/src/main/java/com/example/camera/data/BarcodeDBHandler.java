@@ -34,10 +34,26 @@ public class BarcodeDBHandler extends SQLiteOpenHelper{
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(TABLE_CREATE);
-        db.execSQL("INSERT INTO "+ ProductEntry.TABLE_PRODUCTS+  " VALUES('123','1','Sushi','Japan', 'Japan')");
-        db.execSQL("INSERT INTO "+ ProductEntry.TABLE_PRODUCTS + " VALUES('456','1','Steak','Ireland', 'Ireland')");
-        db.execSQL("INSERT INTO "+ ProductEntry.TABLE_PRODUCTS + " VALUES('789','1','Cheese','France', 'Spain')");
+        db.execSQL("CREATE TABLE " + ProductEntry.TABLE_PRODUCTS + " (" +
+                ProductEntry.COLUMN_BARCODE + " TEXT PRIMARY KEY, " +
+                ProductEntry.COLUMN_STATUS + " TEXT, " +
+                ProductEntry.COLUMN_NAME + " TEXT, " +
+                ProductEntry.COLUMN_MANUF_LOCATION + " TEXT, " +
+                ProductEntry.COLUMN_INGREDIENTS + " TEXT " +
+                ")");
+
+            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('123','1','Sushi','Japan', 'Japan')");
+            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('234','1','Steak','Ireland', 'Ireland')");
+            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('456','1','Cheese','France', 'Spain')");
+            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('4567','1','Cheese','France', 'Spain')");
+            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('1231','1','Sushi','Japan', 'Japan')");
+            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('2341','1','Steak','Ireland', 'Ireland')");
+            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('4561','1','Cheese','France', 'Spain')");
+            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('45671','1','Cheese','France', 'Spain')");
+            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('1232','1','Sushi','Japan', 'Japan')");
+            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('2342','1','Steak','Ireland', 'Ireland')");
+            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('4562','1','Cheese','France', 'Spain')");
+            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('45672','1','Cheese','France', 'Spain')");
     }
 
     /**
@@ -47,15 +63,7 @@ public class BarcodeDBHandler extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         db.execSQL("DROP TABLE IF EXISTS "+ProductEntry.TABLE_PRODUCTS);
-        db.execSQL(TABLE_CREATE);
+        onCreate(db);
 
     }
-    private static final String TABLE_CREATE =
-            "CREATE TABLE " + ProductEntry.TABLE_PRODUCTS + " (" +
-                    ProductEntry.COLUMN_BARCODE + " TEXT PRIMARY KEY, " +
-                    ProductEntry.COLUMN_STATUS + " TEXT, " +
-                    ProductEntry.COLUMN_NAME + " TEXT, " +
-                    ProductEntry.COLUMN_MANUF_LOCATION + " TEXT, " +
-                    ProductEntry.COLUMN_INGREDIENTS + " TEXT " +
-                    ")";
 }

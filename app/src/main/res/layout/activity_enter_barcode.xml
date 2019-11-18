@@ -47,13 +47,15 @@
                     android:id="@+id/Submit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/submit" />
+                    android:text="@string/submit"
+                    style="@style/small_buttons"/>
 
                 <Button
                     android:id="@+id/scan_again"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/scan_again" />
+                    android:text="@string/scan_again"
+                    style="@style/small_buttons"/>
             </LinearLayout>
 
         </LinearLayout>

@@ -1,7 +1,5 @@
 package com.example.camera;
 
-import android.content.Intent;
-
 public class Barcode {
     private Product product;
     private String code;
@@ -9,7 +7,7 @@ public class Barcode {
     private Boolean inDB;
 
 
-    public Barcode(Product product, Integer status, String code){
+    public Barcode(Product product, Integer status, String code) {
         this.product = product;
         this.status = status;
         this.inDB = false;
@@ -20,22 +18,22 @@ public class Barcode {
         this.inDB = false;
     }
 
-    public Product getProduct(){
+    public Product getProduct() {
 
         return product;
     }
 
-    public void setProduct(Product product){
+    public void setProduct(Product product) {
 
-        this.product= product;
+        this.product = product;
     }
 
-    public Integer getStatus(){
+    public Integer getStatus() {
 
         return status;
     }
 
-    public void setStatus(Integer status){
+    public void setStatus(Integer status) {
 
         this.status = status;
     }
@@ -50,7 +48,7 @@ public class Barcode {
         this.code = code;
     }
 
-    public Boolean getInDB(){
+    Boolean getInDB() {
 
         return inDB;
     }

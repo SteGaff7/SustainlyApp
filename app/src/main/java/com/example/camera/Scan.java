@@ -1,8 +1,5 @@
 package com.example.camera;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,6 +10,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.SparseArray;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -40,10 +40,8 @@ public class Scan extends Activity {
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "IMG_" + timeStamp + "_";
-        File storageDir = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.FROYO) {
-            storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        }
+        File storageDir;
+        storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -68,14 +66,12 @@ public class Scan extends Activity {
             }
 
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID+".provider", photoFile);
+                Uri photoURI = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", photoFile);
                 pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
 
                 try {
                     startActivityForResult(pictureIntent, REQUEST_TAKE_PHOTO);
-                }
-
-                catch (Exception e){
+                } catch (Exception e) {
                     System.out.println("*********Error:" + e);
                     finish();
                 }
@@ -87,6 +83,9 @@ public class Scan extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
 
         System.out.println("************REQUEST CODE*****" + Integer.toString(requestCode));
 
@@ -111,7 +110,7 @@ public class Scan extends Activity {
 
                 TextView mTextView = findViewById(R.id.textContent);
                 if (!mDetector.isOperational()) {
-                    mTextView.setText("Could not set up detector");
+                    mTextView.setText(getString(R.string.detector_error));
                     return;
                 }
 

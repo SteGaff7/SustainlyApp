@@ -1,11 +1,12 @@
 package com.example.camera;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Context;
+
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,7 +33,7 @@ public class CheckBarcode extends Activity {
         final ProductOperations productOperations = new ProductOperations(this);
         Barcode generatedBarcode = productOperations.getBarcode(message);
 
-        if (generatedBarcode.getInDB() == true) {
+        if (generatedBarcode.getInDB()) {
 
             System.out.println("************ FOUND IN DB WHOOO ************");
 
@@ -45,17 +46,18 @@ public class CheckBarcode extends Activity {
             showInfoIntent.putExtra("com.example.camera.INFO-MAN", manufacturingPlaces);
             showInfoIntent.putExtra("com.example.camera.INFO-ORIGINS", origins);
             startActivity(showInfoIntent);
+
             finish();
         }
 
         else {
 
             System.out.println("**************** NOT IN DB SAD ************");
-            String URL="https://world.openfoodfacts.org/api/v0/product/"+message+".json";
+            String URL = "https://world.openfoodfacts.org/api/v0/product/" + message + ".json";
 
-            RequestQueue requestQueue= Volley.newRequestQueue(this);
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-            JsonObjectRequest objectRequest= new JsonObjectRequest(
+            JsonObjectRequest objectRequest = new JsonObjectRequest(
                     Request.Method.GET,
                     URL,
                     null,
@@ -116,7 +118,7 @@ public class CheckBarcode extends Activity {
                     },
                     new Response.ErrorListener() {
                         @Override
-                        public void onErrorResponse (VolleyError error) {
+                        public void onErrorResponse(VolleyError error) {
                             System.out.println(error);
                         }
                     }

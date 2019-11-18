@@ -1,31 +1,27 @@
 package com.example.camera;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.TextView;
+import androidx.core.widget.TextViewCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.PlaceDetectionClient;
-import com.google.android.gms.location.places.PlaceLikelihood;
-import com.google.android.gms.location.places.PlaceLikelihoodBufferResponse;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,11 +30,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * An activity that displays a map showing the place at the device's current location.
@@ -46,6 +42,7 @@ import com.google.android.gms.tasks.Task;
 public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback {
 
+    private Toolbar toolbar;
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
@@ -84,13 +81,14 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("MENU", "FUCK THIS FUCKING TbjkhHING");
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String value = extras.getString("location");
             latLng = new LatLng(42.364506, -71.03888);
             //The key argument here must match that used in the other activity
         }
-
         super.onCreate(savedInstanceState);
 
         // Retrieve location and camera position from saved instance state.
@@ -115,12 +113,26 @@ public class MapsActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        final FloatingActionButton infoButton = findViewById(R.id.mapInfo);
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), MoreInfoActivity.class);
+                startActivity(intent);
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
+        // Remove default title text
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // Get access to the custom title view
+        TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(R.string.distance);
+        TextViewCompat.setTextAppearance(mTitle, R.style.Toolbar_TitleText_long);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
     }
 
     /**
@@ -135,28 +147,12 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
-    /**
-     * Sets up the options menu.
-     * @param menu The options menu.
-     * @return Boolean.
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.current_place_menu, menu);
-        return true;
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.get_info_button:
-                Intent i = new Intent(this, MoreInfoActivity.class);
-                this.startActivity(i);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        return super.onOptionsItemSelected(item);
     }
+
     /**
      * Manipulates the map when it's available.
      * This callback is triggered when the map is ready to be used.
@@ -231,18 +227,17 @@ public class MapsActivity extends AppCompatActivity
                             Location startLoc = new Location("point A");
                             startLoc.setLatitude(latLng.latitude);
                             startLoc.setLongitude(latLng.longitude);
-                            float distance = (startLoc.distanceTo(mLastKnownLocation))/1000;
+                            float distance = (startLoc.distanceTo(mLastKnownLocation)) / 1000;
                             float co2 = 0;
                             if (distance >= 200) {
                                 co2 = distance * 135;
-                            }
-                            else {
+                            } else {
                                 co2 = distance * 142;
                             }
-                            TextView tv1 = (TextView)findViewById(R.id.infoText);
+                            TextView tv1 = (TextView) findViewById(R.id.infoText);
                             String setText =
                                     "Your food had to travel " + distance + " km, and " +
-                                            "transporting it that far released " + co2/1000 + " " +
+                                            "transporting it that far released " + co2 / 1000 + " " +
                                             "kg of CO2 into the air. Buy locally grown/sourced " +
                                             "products to increase the sustainability of your food!";
                             tv1.setText(setText);
@@ -251,13 +246,13 @@ public class MapsActivity extends AppCompatActivity
                             Log.e(TAG, "Exception: %s", task.getException());
                             mMap.moveCamera(CameraUpdateFactory
                                     .newLatLngZoom(mDefaultLocation, 4));
-                           // currLoc = mDefaultLocation;
+                            // currLoc = mDefaultLocation;
                             mMap.getUiSettings().setMyLocationButtonEnabled(false);
                         }
                     }
                 });
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
@@ -320,7 +315,7 @@ public class MapsActivity extends AppCompatActivity
                 mLastKnownLocation = null;
                 getLocationPermission();
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
