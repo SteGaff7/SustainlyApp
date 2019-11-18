@@ -21,17 +21,18 @@
             android:layout_height="match_parent"
             tools:context="com.example.camera.MapsActivity" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/mapInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
             android:clickable="true"
+            android:contentDescription="@string/more_info"
+            android:text="@string/more_info"
+            app:icon="@drawable/ic_info_outline_white_24dp"
             android:backgroundTint="@color/colorWhite"
-            app:srcCompat="@drawable/ic_info_outline_white_24dp"
-            app:elevation="4dp"
-            app:layout_anchorGravity="bottom|right|end"/>
+            app:layout_anchorGravity="bottom|right|end"
+            android:layout_gravity="bottom|right"/>
     </FrameLayout>
 
     <LinearLayout
