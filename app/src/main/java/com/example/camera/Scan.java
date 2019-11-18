@@ -1,8 +1,5 @@
 package com.example.camera;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,6 +11,9 @@ import android.provider.MediaStore;
 import android.util.SparseArray;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
@@ -24,10 +24,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class Scan extends AppCompatActivity {
+public class Scan extends Activity {
 
     static final int REQUEST_TAKE_PHOTO = 1;
-    // private static final int REQUEST_IMAGE_CAPTURE = 100;
+    static final int CHECK_BARCODE_REQUEST = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +40,8 @@ public class Scan extends AppCompatActivity {
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "IMG_" + timeStamp + "_";
-        File storageDir = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.FROYO) {
-            storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        }
+        File storageDir;
+        storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -68,14 +66,12 @@ public class Scan extends AppCompatActivity {
             }
 
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID+".provider", photoFile);
+                Uri photoURI = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", photoFile);
                 pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
 
                 try {
                     startActivityForResult(pictureIntent, REQUEST_TAKE_PHOTO);
-                }
-
-                catch (Exception e){
+                } catch (Exception e) {
                     System.out.println("*********Error:" + e);
                     finish();
                 }
@@ -84,10 +80,14 @@ public class Scan extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
 
-        System.out.println("******************" + resultCode);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        System.out.println("************REQUEST CODE*****" + Integer.toString(requestCode));
 
         // Check which request we're responding to
         if (requestCode == REQUEST_TAKE_PHOTO) {
@@ -97,7 +97,7 @@ public class Scan extends AppCompatActivity {
             //Glide.with(this).load(imageFilePath).into(mImageView);
 
             // Make sure the request was successful
-            if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == RESULT_OK) {
 
                 Bitmap myBitmap = BitmapFactory.decodeFile(imageFilePath);
                 // Set image here if viewing it
@@ -110,7 +110,7 @@ public class Scan extends AppCompatActivity {
 
                 TextView mTextView = findViewById(R.id.textContent);
                 if (!mDetector.isOperational()) {
-                    mTextView.setText("Could not set up detector");
+                    mTextView.setText(getString(R.string.detector_error));
                     return;
                 }
 
@@ -118,7 +118,6 @@ public class Scan extends AppCompatActivity {
                 Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
                 SparseArray<com.google.android.gms.vision.barcode.Barcode> barcodes = mDetector.detect(frame);
 
-                System.out.println("OUTSIDE");
                 // Usually iterate but we know only 1 image
 
                 // If barcode result
@@ -127,14 +126,25 @@ public class Scan extends AppCompatActivity {
                         Barcode thisCode = barcodes.valueAt(i);
                         String message = thisCode.rawValue;
 
-                        // Create intent to show info
-                        Intent intent = new Intent(getApplicationContext(), CheckBarcode.class);
-                        // mTextView.setText(message);
-                        intent.putExtra("com.example.camera.MESSAGE", message);
-                        startActivity(intent);
-                        //mTextView.append("In here");
-                        // System.out.println("***************************************************"+thisCode.rawValue);
-                        // mTextView.setText(thisCode.rawValue);
+//                        // Create intent to show info
+//                        Intent intent = new Intent(getApplicationContext(), CheckBarcode.class);
+//                        // mTextView.setText(message);
+//                        intent.putExtra("com.example.camera.MESSAGE", message);
+//                        startActivity(intent);
+//                        //mTextView.append("In here");
+//                        // System.out.println("***************************************************"+thisCode.rawValue);
+//                        // mTextView.setText(thisCode.rawValue);
+
+//                        Intent enterBarcodeIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
+//                        enterBarcodeIntent.putExtra("com.example.camera.FLAG", "5");
+//                        enterBarcodeIntent.putExtra("com.example.camera.MESSAGE", message);
+//                        startActivity(enterBarcodeIntent);
+
+
+                        Intent checkBarcodeIntent = new Intent(getApplicationContext(), CheckBarcode.class);
+                        checkBarcodeIntent.putExtra("com.example.camera.MESSAGE", message);
+                        startActivityForResult(checkBarcodeIntent, CHECK_BARCODE_REQUEST);
+//                        System.out.println("***************STARTED***************");
                     }
                 }
 
@@ -143,11 +153,52 @@ public class Scan extends AppCompatActivity {
                     Intent redirectIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
                     redirectIntent.putExtra("com.example.camera.FLAG", "1");
                     startActivity(redirectIntent);
+                    finish();
                 }
+            }
+
+            // Request not ok
+            else {
+                finish();
             }
         }
 
-        // New
-        finish();
+        else if (requestCode == CHECK_BARCODE_REQUEST) {
+            System.out.println("*************MADE IT HERE***********");
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+
+                if (data.hasExtra("com.example.camera.FLAG")) {
+                    String flag = data.getStringExtra("com.example.camera.FLAG");
+
+                    switch (flag) {
+                        case "2": {
+                            Intent redirectIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
+                            redirectIntent.putExtra("com.example.camera.FLAG", "2");
+                            startActivity(redirectIntent);
+                            finish();
+                            break;
+                        }
+                        case "3": {
+                            Intent redirectIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
+                            redirectIntent.putExtra("com.example.camera.FLAG", "3");
+                            startActivity(redirectIntent);
+                            finish();
+                            break;
+                        }
+                    }
+                }
+
+                else {
+
+                    // No flag so other intent started okay
+                    Bundle extras = data.getExtras();
+                    Intent showInfoIntent = new Intent(getApplicationContext(), ShowInfoActivity.class);
+                    showInfoIntent.putExtras(extras);
+                    startActivity(showInfoIntent);
+                    finish();
+                }
+            }
+        }
     }
 }

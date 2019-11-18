@@ -1,9 +1,5 @@
 package com.example.camera;
 
-import com.example.camera.data.ProductOperations;
-
-import java.util.ArrayList;
-
 public class Product {
     private String product_name_en;
     private String manufacturing_places;
