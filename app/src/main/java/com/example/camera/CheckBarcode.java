@@ -85,7 +85,8 @@ public class CheckBarcode extends Activity {
                                 String origins = barcode.getProduct().getOrigins();
 
 
-                                if (productName == null & manufacturingPlaces == null & origins == null) {
+
+                                if ((productName == null || productName == "") &  (manufacturingPlaces == null || manufacturingPlaces == "") & (origins == null || origins == "")) {
                                     // Redirect to enter barcode, product found but no appropriate info on it
                                     System.out.println("*******NULL INFO ON OBJECT********");
 
