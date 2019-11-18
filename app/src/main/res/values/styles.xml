@@ -31,12 +31,12 @@
         <item name="android:layout_marginTop">10sp</item>
         <item name="android:layout_marginBottom">10sp</item>
         <item name="android:textColor">@color/colorWhite</item>
-        <item name="android:minWidth">20dp</item>
-        <item name="android:paddingLeft">14dp</item>
-        <item name="android:paddingRight">14dp</item>
-        <item name="android:minHeight">20dp</item>
-        <item name="android:paddingTop">14dp</item>
-        <item name="android:paddingBottom">14dp</item>
+        <item name="android:minWidth">20sp</item>
+        <item name="android:paddingLeft">14sp</item>
+        <item name="android:paddingRight">14sp</item>
+        <item name="android:minHeight">20sp</item>
+        <item name="android:paddingTop">14sp</item>
+        <item name="android:paddingBottom">14sp</item>
         <item name="android:backgroundTint">@color/darkBlue</item>
     </style>
 
