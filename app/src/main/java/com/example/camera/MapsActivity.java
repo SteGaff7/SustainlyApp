@@ -1,36 +1,29 @@
 package com.example.camera;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
-
 import android.os.Bundle;
-import android.view.MenuInflater;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.TextViewCompat;
-
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.TextView;
+import android.view.MenuInflater;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.PlaceDetectionClient;
-import com.google.android.gms.location.places.PlaceLikelihood;
-import com.google.android.gms.location.places.PlaceLikelihoodBufferResponse;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,12 +32,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,9 +48,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
+import java.lang.Math;
 import java.io.Writer;
-import java.util.Iterator;
 
 /**
  * An activity that displays a map showing the place at the device's current location.
@@ -177,7 +169,7 @@ public class MapsActivity extends AppCompatActivity
         }
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_maps);
-     
+
         // Construct a GeoDataClient.
         mGeoDataClient = Places.getGeoDataClient(this, null);
 
@@ -236,18 +228,13 @@ public class MapsActivity extends AppCompatActivity
         inflater.inflate(R.menu.main, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.get_info_button:
-                Intent i = new Intent(this, MoreInfoActivity.class);
-                this.startActivity(i);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        return super.onOptionsItemSelected(item);
     }
+
     /**
      * Manipulates the map when it's available.
      * This callback is triggered when the map is ready to be used.
@@ -322,33 +309,33 @@ public class MapsActivity extends AppCompatActivity
                             Location startLoc = new Location("point A");
                             startLoc.setLatitude(latLng.latitude);
                             startLoc.setLongitude(latLng.longitude);
-                            float distance = (startLoc.distanceTo(mLastKnownLocation))/1000;
+                            float distance = (startLoc.distanceTo(mLastKnownLocation)) / 1000;
                             float co2 = 0;
                             if (distance >= 200) {
                                 co2 = distance * 135;
-                            }
-                            else {
+                            } else {
                                 co2 = distance * 142;
                             }
-                            TextView tv1 = (TextView)findViewById(R.id.infoText);
+                            co2 = Math.round(co2);
+                            distance = Math.round(distance);
+                            TextView tv1 = (TextView) findViewById(R.id.infoText);
                             String setText =
-                                    "Your food had to travel " + distance + " km, and " +
-                                            "transporting it that far released " + co2/1000 + " " +
-                                            "kg of CO2 into the air. Buy locally grown/sourced " +
-                                            "products to increase the sustainability of your food!";
+                                    "Distance Food Traveled: " + distance + " km\n" +
+                                            "CO2 released " + co2 / 1000 + "kg of CO2\n" +
+                                            "Buy locally to increase sustainability!";
                             tv1.setText(setText);
                         } else {
                             Log.d(TAG, "Current location is null. Using defaults.");
                             Log.e(TAG, "Exception: %s", task.getException());
                             mMap.moveCamera(CameraUpdateFactory
                                     .newLatLngZoom(mDefaultLocation, 4));
-                           // currLoc = mDefaultLocation;
+                            // currLoc = mDefaultLocation;
                             mMap.getUiSettings().setMyLocationButtonEnabled(false);
                         }
                     }
                 });
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
@@ -411,7 +398,7 @@ public class MapsActivity extends AppCompatActivity
                 mLastKnownLocation = null;
                 getLocationPermission();
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }

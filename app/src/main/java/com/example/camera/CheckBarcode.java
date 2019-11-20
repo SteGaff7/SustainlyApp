@@ -1,9 +1,12 @@
 package com.example.camera;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.app.Activity;
+import android.content.Context;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -16,7 +19,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
-public class CheckBarcode extends AppCompatActivity {
+public class CheckBarcode extends Activity {
     // /** and enter
 
     @Override
@@ -25,12 +28,12 @@ public class CheckBarcode extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        String message = intent.getStringExtra(EnterBarcodeActivity.EXTRA_MESSAGE);
+        String message = intent.getStringExtra("com.example.camera.MESSAGE");
 
         final ProductOperations productOperations = new ProductOperations(this);
         Barcode generatedBarcode = productOperations.getBarcode(message);
 
-        if (generatedBarcode.getInDB() == true) {
+        if (generatedBarcode.getInDB()) {
 
             System.out.println("************ FOUND IN DB WHOOO ************");
 
@@ -43,17 +46,18 @@ public class CheckBarcode extends AppCompatActivity {
             showInfoIntent.putExtra("com.example.camera.INFO-MAN", manufacturingPlaces);
             showInfoIntent.putExtra("com.example.camera.INFO-ORIGINS", origins);
             startActivity(showInfoIntent);
-            //finish();
+
+            finish();
         }
 
         else {
 
             System.out.println("**************** NOT IN DB SAD ************");
-            String URL="https://world.openfoodfacts.org/api/v0/product/"+message+".json";
+            String URL = "https://world.openfoodfacts.org/api/v0/product/" + message + ".json";
 
-            RequestQueue requestQueue= Volley.newRequestQueue(this);
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-            JsonObjectRequest objectRequest= new JsonObjectRequest(
+            JsonObjectRequest objectRequest = new JsonObjectRequest(
                     Request.Method.GET,
                     URL,
                     null,
@@ -69,10 +73,11 @@ public class CheckBarcode extends AppCompatActivity {
                                 System.out.println("******STATUS " + barcode.getStatus());
                                 // Redirect to enter barcode page as no product was found
 
-                                Intent redirectIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
+                                Intent redirectIntent = new Intent();
                                 redirectIntent.putExtra("com.example.camera.FLAG", "2");
-                                startActivity(redirectIntent);
-                                //finish();
+                                setResult(RESULT_OK, redirectIntent);
+                                finish();
+
                             } else if (barcode.getStatus() == 1) {
                                 System.out.println("******STATUS " + barcode.getStatus());
                                 String productName = barcode.getProduct().getProductName();
@@ -80,14 +85,17 @@ public class CheckBarcode extends AppCompatActivity {
                                 String origins = barcode.getProduct().getOrigins();
 
 
-                                if (productName == null & manufacturingPlaces == null & origins == null) {
+
+                                if ((productName == null || productName == "") &  (manufacturingPlaces == null || manufacturingPlaces == "") & (origins == null || origins == "")) {
                                     // Redirect to enter barcode, product found but no appropriate info on it
                                     System.out.println("*******NULL INFO ON OBJECT********");
 
-                                    Intent redirectIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
+                                    Intent redirectIntent = new Intent();
                                     redirectIntent.putExtra("com.example.camera.FLAG", "3");
-                                    startActivity(redirectIntent);
-                                    //finish();
+                                    setResult(RESULT_OK, redirectIntent);
+                                    finish();
+
+
                                 } else {
 
                                     // ? SAVE INSERT INTO DB
@@ -96,12 +104,13 @@ public class CheckBarcode extends AppCompatActivity {
 
                                     // Send info to show info page using intent
                                     System.out.println("*****FOUND SOME INFO********");
-                                    Intent intent = new Intent(getApplicationContext(), ShowInfoActivity.class);
+                                    Intent intent = new Intent();
                                     intent.putExtra("com.example.camera.INFO-NAME", productName);
                                     intent.putExtra("com.example.camera.INFO-MAN", manufacturingPlaces);
                                     intent.putExtra("com.example.camera.INFO-ORIGINS", origins);
-                                    startActivity(intent);
-                                    //finish();
+                                    setResult(RESULT_OK,intent);
+                                    finish();
+
 
                                 }
                             }
@@ -110,13 +119,15 @@ public class CheckBarcode extends AppCompatActivity {
                     },
                     new Response.ErrorListener() {
                         @Override
-                        public void onErrorResponse (VolleyError error) {
+                        public void onErrorResponse(VolleyError error) {
                             System.out.println(error);
                         }
                     }
             );
+
+            // WHAT DOES THIS DO?
             requestQueue.add(objectRequest);
-            finish();
+            //finish();
         }
 
     }

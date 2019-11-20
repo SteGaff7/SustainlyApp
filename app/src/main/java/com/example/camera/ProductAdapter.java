@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,33 +19,37 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        public TextView nameTextView;
-        public String manuTextView;
-        public String originTextView;
+        TextView nameTextView;
+        TextView manuTextView;
+        String originTextView;
 
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(itemView);
-            nameTextView = (TextView) itemView.findViewById(R.id.product_name);
+            nameTextView = itemView.findViewById(R.id.product_name);
+            manuTextView = itemView.findViewById(R.id.manufacurer_name);
             itemView.setOnClickListener(this);
         }
+
         /**
          * Called whenever a user clicks on an item in the list.
+         *
          * @param v The View that was clicked
          */
         @Override
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
             mOnClickListener.onListItemClick(clickedPosition, nameTextView.getText().toString(),
-                    manuTextView, originTextView);
+                    manuTextView.getText().toString(), originTextView);
         }
     }
 
     final private ListItemClickListener mOnClickListener;
+
     public interface ListItemClickListener {
         void onListItemClick(int clickedItemIndex, String name, String manu, String origin);
     }
@@ -55,10 +58,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     private List<Product> mProducts;
 
     // Pass in the contact array into the constructor
-    public ProductAdapter(ListItemClickListener listener, List<Product> products) {
+    ProductAdapter(ListItemClickListener listener, List<Product> products) {
         mProducts = products;
         mOnClickListener = listener;
     }
+
     // Usually involves inflating a layout from XML and returning the holder
     @Override
     public ProductAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -66,11 +70,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View productView = inflater.inflate(R.layout.item_product, parent, false);
-
-        // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(productView);
-        return viewHolder;
+        return new ViewHolder(inflater.inflate(R.layout.item_product, parent, false));
     }
 
     // Involves populating data into the item through holder
@@ -81,9 +81,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
         // Set item views based on your views and data model
         TextView textView = viewHolder.nameTextView;
-        textView.setText(product.getProductName());
-        viewHolder.manuTextView=product.getManufacturingPlaces();
-        viewHolder.originTextView=product.getOrigins();
+        textView.setText("Product" + ": " + product.getProductName());
+        TextView textView1 = viewHolder.manuTextView;
+        textView1.setText("Brand: " + " " + product.getManufacturingPlaces());
+        viewHolder.originTextView = product.getOrigins();
     }
 
     // Returns the total count of items in the list

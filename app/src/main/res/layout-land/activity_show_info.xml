@@ -12,29 +12,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"
-        android:gravity="center_vertical|end"
-        android:paddingRight="10dp"
-        android:paddingEnd="10dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/brookelark_unsplash"
-        android:text="@string/results_from_open_food_facts_org" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:background="@drawable/brookelark_unsplash"
+            android:gravity="bottom|end"
+            android:padding="10dp"
+            android:text="@string/results_from_open_food_facts_org"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="manuTextView,originTextView,more_info_origin"
+            tools:layout_editor_absoluteX="731dp" />
 
         <TextView
             android:id="@+id/productTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
             android:background="@color/colorWhite"
             android:fontFamily="sans-serif-medium"
             android:minHeight="?attr/actionBarSize"
@@ -43,20 +56,24 @@
             android:textColor="@color/darkBlue"
             android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.718"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/manuTextView"
             style="@style/results"
+            android:layout_width="0dp"
             android:text="@string/manu"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.35"
+            app:layout_constraintStart_toEndOf="@+id/barrier2"
             app:layout_constraintTop_toBottomOf="@+id/productTextView" />
 
         <TextView
             android:id="@+id/originTextView"
             style="@style/results"
+            android:layout_width="0dp"
             android:text="@string/origin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -72,7 +89,10 @@
             android:text="@string/more_info_origin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.785"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/originTextView"
+            app:layout_constraintVertical_bias="0.61" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
