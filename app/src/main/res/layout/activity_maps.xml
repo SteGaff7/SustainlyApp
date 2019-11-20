@@ -10,6 +10,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <LinearLayout
+        android:id="@+id/validity"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_gravity="bottom"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:gravity="center"
+            android:textStyle="bold"
+            android:id="@+id/infoText"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="You are not a paid user." />
+    </LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -21,20 +39,19 @@
             android:layout_height="match_parent"
             tools:context="com.example.camera.MapsActivity" />
 
-        <LinearLayout
-            android:id="@+id/validity"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            android:background="@android:color/white"
-            android:orientation="vertical">
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/mapInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            android:contentDescription="@string/more_info"
+            android:text="@string/more_info"
+            app:icon="@drawable/ic_info_outline_white_24dp"
+            android:backgroundTint="@color/colorWhite"
+            app:layout_anchorGravity="bottom|right|end"
+            android:layout_gravity="bottom|right"/>
 
-            <TextView
-                android:id="@+id/infoText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="You are not a paid user." />
-        </LinearLayout>
     </FrameLayout>
 
 </LinearLayout>

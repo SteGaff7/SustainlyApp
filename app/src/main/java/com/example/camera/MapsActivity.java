@@ -16,6 +16,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.TextViewCompat;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import android.util.Log;
 import android.view.Menu;
@@ -44,6 +46,8 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,9 +58,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
+import java.lang.Math;
 import java.io.Writer;
-import java.util.Iterator;
 
 /**
  * An activity that displays a map showing the place at the device's current location.
@@ -190,6 +193,14 @@ public class MapsActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        final ExtendedFloatingActionButton infoButton = findViewById(R.id.mapInfo);
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), MoreInfoActivity.class);
+                startActivity(intent);
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -203,6 +214,7 @@ public class MapsActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
     }
+
 
     /**
      * Saves the state of the map when the activity is paused.
@@ -231,7 +243,7 @@ public class MapsActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.get_info_button:
+            case R.id.more_info_origin:
                 Intent i = new Intent(this, MoreInfoActivity.class);
                 this.startActivity(i);
                 return true;
@@ -321,12 +333,14 @@ public class MapsActivity extends AppCompatActivity
                             else {
                                 co2 = distance * 142;
                             }
-                            TextView tv1 = (TextView)findViewById(R.id.infoText);
+
+                            co2 = Math.round(co2);
+                            distance = Math.round(distance);
+                            TextView tv1 = (TextView) findViewById(R.id.infoText);
                             String setText =
-                                    "Your food had to travel " + distance + " km, and " +
-                                            "transporting it that far released " + co2/1000 + " " +
-                                            "kg of CO2 into the air. Buy locally grown/sourced " +
-                                            "products to increase the sustainability of your food!";
+                                    "Distance Food Traveled: " + distance + " km\n" +
+                                            "CO2 released " + co2 / 1000 + "kg of CO2\n" +
+                                            "Buy locally to increase sustainability!";
                             tv1.setText(setText);
                         } else {
                             Log.d(TAG, "Current location is null. Using defaults.");
