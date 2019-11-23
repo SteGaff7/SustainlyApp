@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Camera App</string>
-    <string name="results_from_open_food_facts_org">Results from Open Food Facts.org</string>
+    <string name="results_from">Results from </string>
     <string name="manu">Manufacturing Info</string>
     <string name="product">Product</string>
     <string name="origin">Origin of Ingred</string>

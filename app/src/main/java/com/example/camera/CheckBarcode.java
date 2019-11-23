@@ -45,6 +45,7 @@ public class CheckBarcode extends Activity {
             showInfoIntent.putExtra("com.example.camera.INFO-NAME", productName);
             showInfoIntent.putExtra("com.example.camera.INFO-MAN", manufacturingPlaces);
             showInfoIntent.putExtra("com.example.camera.INFO-ORIGINS", origins);
+            showInfoIntent.putExtra("com.example.camera.INFO-WHERE", " your database");
             startActivity(showInfoIntent);
 
             finish();
@@ -108,6 +109,7 @@ public class CheckBarcode extends Activity {
                                     intent.putExtra("com.example.camera.INFO-NAME", productName);
                                     intent.putExtra("com.example.camera.INFO-MAN", manufacturingPlaces);
                                     intent.putExtra("com.example.camera.INFO-ORIGINS", origins);
+                                    intent.putExtra("com.example.camera.INFO-WHERE", " Open Food Facts.org");
                                     setResult(RESULT_OK,intent);
                                     finish();
 

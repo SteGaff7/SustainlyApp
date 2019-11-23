@@ -80,6 +80,7 @@ public class SearchItems extends AppCompatActivity implements ProductAdapter.Lis
         // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
             finish(); // close this activity and return to preview activity (if there is any)
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

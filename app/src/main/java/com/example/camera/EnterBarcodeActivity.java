@@ -120,6 +120,7 @@ public class EnterBarcodeActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {
+        super.onActivityResult(requestCode, resultCode, returnIntent);
         System.out.println("******************HERE****************");
         if (requestCode == CHECK_BARCODE_REQUEST) {
              // Make sure the request was successful
@@ -184,6 +185,7 @@ public class EnterBarcodeActivity extends AppCompatActivity {
         // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
             finish(); // close this activity and return to preview activity (if there is any)
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

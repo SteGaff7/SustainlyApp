@@ -13,19 +13,21 @@
     <LinearLayout
         android:id="@+id/validity"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@android:color/white"
+        android:background="@color/colorWhite"
         android:orientation="vertical">
 
         <TextView
-            android:gravity="center"
-            android:textStyle="bold"
             android:id="@+id/infoText"
-            android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="You are not a paid user." />
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="You are not a paid user."
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/darkBlue"/>
     </LinearLayout>
 
     <FrameLayout
@@ -50,7 +52,7 @@
             app:icon="@drawable/ic_info_outline_white_24dp"
             android:backgroundTint="@color/colorWhite"
             app:layout_anchorGravity="bottom|right|end"
-            android:layout_gravity="bottom|right"/>
+            android:layout_gravity="bottom|end"/>
 
     </FrameLayout>
 

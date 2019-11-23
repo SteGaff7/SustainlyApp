@@ -83,7 +83,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         TextView textView = viewHolder.nameTextView;
         textView.setText("Product" + ": " + product.getProductName());
         TextView textView1 = viewHolder.manuTextView;
-        textView1.setText("Brand: " + " " + product.getManufacturingPlaces());
+        textView1.setText(product.getManufacturingPlaces());
         viewHolder.originTextView = product.getOrigins();
     }
 

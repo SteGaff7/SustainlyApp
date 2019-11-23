@@ -242,14 +242,12 @@ public class MapsActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.more_info_origin:
-                Intent i = new Intent(this, MoreInfoActivity.class);
-                this.startActivity(i);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+            return true;
         }
+
+        return super.onOptionsItemSelected(item);
     }
     /**
      * Manipulates the map when it's available.

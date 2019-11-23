@@ -19,34 +19,32 @@ public class ShowInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_show_info);
 
         final TextView productTextView = findViewById(R.id.productTextView);
         final TextView manuTextView = findViewById(R.id.manuTextView);
         final TextView originTextView = findViewById(R.id.originTextView);
+        final TextView title = findViewById(R.id.title);
 
         Intent intent = getIntent();
-
+        System.out.println("*************HERE**********");
+        System.out.println(intent.getStringExtra("com.example.camera.INFO-WHERE"));
+        title.setText(getString(R.string.results_from)+intent.getStringExtra("com.example.camera.INFO-WHERE"));
         String productName = intent.getStringExtra("com.example.camera.INFO-NAME");
         String manufacturingPlaces = intent.getStringExtra("com.example.camera.INFO-MAN");
         final String origins = intent.getStringExtra("com.example.camera.INFO-ORIGINS");
 
-        if (productName != null || productName=="") {
+        if (productName != null && productName!="") {
 
-            String[] splited = productName.split("\\s+");
-            if(splited.length>1){
-                productName=splited[1];
-            }
+
             productTextView.setText(productName);
         } else {
             productTextView.setText(R.string.error);
         }
 
-        if (manufacturingPlaces != null || manufacturingPlaces=="") {
-            String[] splited = manufacturingPlaces.split("\\s+");
-            if(splited.length>1){
-                manufacturingPlaces=splited[1];
-            }
+        if (manufacturingPlaces != null && manufacturingPlaces!="") {
+
             manuTextView.setText(getString(R.string.more_info_manu) + " " + manufacturingPlaces + ".");
         } else {
             manuTextView.setText(R.string.manu_error + ".");
@@ -54,7 +52,7 @@ public class ShowInfoActivity extends AppCompatActivity {
 
 
 
-        if (origins != null || origins=="") {
+        if (origins != null && origins!="") {
            location = origins;
            originTextView.setText(getString(R.string.more_info_product) + " " + origins + ".");
         } else {
@@ -92,7 +90,8 @@ public class ShowInfoActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
-            finish(); // close this activity and return to preview activity (if there is any)
+            finish();
+            return true;// close this activity and return to preview activity (if there is any)
         }
 
         return super.onOptionsItemSelected(item);
