@@ -26,12 +26,13 @@ public class FoodGridAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        Food myFood= foods[position];
+        return myFood;
     }
 
     @Override

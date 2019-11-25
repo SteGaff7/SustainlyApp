@@ -49,8 +49,13 @@ public class SearchItems extends AppCompatActivity implements ProductAdapter.Lis
 
         final ProductOperations productOperations = new ProductOperations(this);
 
+        Intent intent = getIntent();
+        String category = intent.getStringExtra(SearchCategories.EXTRA_MESSAGE);
+
+
+
         // Initialize contacts
-        products = productOperations.filterCategory("Fruit");
+        products = productOperations.filterCategory(category);
         // Create adapter passing in the sample user data
         ProductAdapter adapter = new ProductAdapter(this, products);
         // Attach the adapter to the recyclerview to populate items
@@ -68,7 +73,7 @@ public class SearchItems extends AppCompatActivity implements ProductAdapter.Lis
         }
         // Get access to the custom title view
         TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
-        mTitle.setText("Fruit");
+        mTitle.setText(category);
         TextViewCompat.setTextAppearance(mTitle, R.style.Toolbar_TitleText);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
