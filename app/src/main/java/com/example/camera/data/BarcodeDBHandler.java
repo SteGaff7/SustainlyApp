@@ -43,15 +43,28 @@ public class BarcodeDBHandler extends SQLiteOpenHelper{
                 ProductEntry.COLUMN_CATEGORIES + " TEXT " +
                 ")");
 
-        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('123','1','Orange','Japan', 'Japan', 'Fruit')");
-        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('234','1','Brennans Bread','Ireland', 'Ireland', 'Bread')");
-        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('456','1','Carrot','France', 'Spain', 'Vegetable')");
-        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('4567','1','Apple','France', 'Spain', 'Fruit')");
-        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('1231','1','Ketchup','Japan', 'Japan', 'Condiments')");
-        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('2341','1','Crisps','Ireland', 'Ireland', 'Snacks')");
-        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('4561','1','Coca-cola','France', 'Spain', 'Beverages')");
-        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('45671','1','Ragu Pasta','France', 'Spain', 'Pasta')");
-        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('1232','1','Goodfellas','Japan', 'Japan', 'Pizza')");
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('4311501606704','1','Steak Burger','France', 'France, Germany', 'Meat')");
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('00767781','1','Chiplote chili chicken jerky','United Kingdom', 'France, United Kingdom', 'Meat')");
+
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('3276557087833','1','Pain au mais','France', 'France', 'Bread')");
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('5099630250997','1','Brown soda bread','Ireland', 'Ireland, United Kingdom', 'Bread')");
+
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('3590941000926','1','Carrots','France', 'France', 'Vegetable')");
+
+
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('0035826086433','1','Granny Smith Apple','United States', 'United States', 'Fruit')");
+
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('8715700422718','1','Tomato Ketchup - Heinz','United Kingdom', 'United Kingdom, France', 'Condiments')");
+
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('5390248520015','1','Keoghs Salt & Vinegar Crisps','Ireland', 'Ireland, United Kingdom', 'Snacks')");
+
+
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('5011007003005','1','Jameson Irish Whiskey','Ireland', 'Ireland', 'Beverages')");
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('4053400211411','1','Irish Red Ale - Kilkenny','Ireland', 'Ireland', 'Beverages')");
+
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('8076800195057','1','Spaghetti - Barilla','Italy', 'Italy', 'Pasta')");
+
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('4001724819905','1','Ristorante: Vegetarian Pizza','Germany', 'Italy, Germany', 'Pizza')");
     }
 
     /**
