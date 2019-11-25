@@ -39,21 +39,19 @@ public class BarcodeDBHandler extends SQLiteOpenHelper{
                 ProductEntry.COLUMN_STATUS + " TEXT, " +
                 ProductEntry.COLUMN_NAME + " TEXT, " +
                 ProductEntry.COLUMN_MANUF_LOCATION + " TEXT, " +
-                ProductEntry.COLUMN_INGREDIENTS + " TEXT " +
+                ProductEntry.COLUMN_INGREDIENTS + " TEXT, " +
+                ProductEntry.COLUMN_CATEGORIES + " TEXT " +
                 ")");
 
-            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('123','1','Sushi','Japan', 'Japan')");
-            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('234','1','Steak','Ireland', 'Ireland')");
-            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('456','1','Cheese','France', 'Spain')");
-            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('4567','1','Cheese','France', 'Spain')");
-            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('1231','1','Sushi','Japan', 'Japan')");
-            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('2341','1','Steak','Ireland', 'Ireland')");
-            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('4561','1','Cheese','France', 'Spain')");
-            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('45671','1','Cheese','France', 'Spain')");
-            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('1232','1','Sushi','Japan', 'Japan')");
-            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('2342','1','Steak','Ireland', 'Ireland')");
-            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('4562','1','Cheese','France', 'Spain')");
-            db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('45672','1','Cheese','France', 'Spain')");
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('123','1','Orange','Japan', 'Japan', 'Fruit')");
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('234','1','Brennans Bread','Ireland', 'Ireland', 'Bread')");
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('456','1','Carrot','France', 'Spain', 'Vegetable')");
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('4567','1','Apple','France', 'Spain', 'Fruit')");
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('1231','1','Ketchup','Japan', 'Japan', 'Condiments')");
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('2341','1','Crisps','Ireland', 'Ireland', 'Snacks')");
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('4561','1','Coca-cola','France', 'Spain', 'Beverages')");
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('45671','1','Ragu Pasta','France', 'Spain', 'Pasta')");
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('1232','1','Goodfellas','Japan', 'Japan', 'Pizza')");
     }
 
     /**

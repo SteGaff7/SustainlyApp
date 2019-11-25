@@ -29,7 +29,8 @@ public class ProductOperations {
             ProductEntry.COLUMN_STATUS,
             ProductEntry.COLUMN_NAME,
             ProductEntry.COLUMN_MANUF_LOCATION,
-            ProductEntry.COLUMN_INGREDIENTS
+            ProductEntry.COLUMN_INGREDIENTS,
+            ProductEntry.COLUMN_CATEGORIES
 
     };
 
@@ -46,6 +47,8 @@ public class ProductOperations {
         values.put(ProductEntry.COLUMN_NAME, barcode.getProduct().getProductName());
         values.put(ProductEntry.COLUMN_MANUF_LOCATION, barcode.getProduct().getManufacturingPlaces());
         values.put(ProductEntry.COLUMN_INGREDIENTS, barcode.getProduct().getOrigins());
+        values.put(ProductEntry.COLUMN_CATEGORIES, barcode.getProduct().getCategory());
+
         database.insert(ProductEntry.TABLE_PRODUCTS, null, values);
 
     }
@@ -84,6 +87,7 @@ public class ProductOperations {
             product.setProductName(cursor.getString(2));
             product.setManufacturingPlaces(cursor.getString(3));
             product.setOrigins(cursor.getString(4));
+            product.setCategory(cursor.getString(5));
 
             returnedBarcode.setProduct(product);
             cursor.close();
@@ -110,12 +114,15 @@ public class ProductOperations {
     public ArrayList<Product> filterCategory(String message) {
         // Create and/or open a database to read from it
         SQLiteDatabase database=dbhandler.getReadableDatabase();
-        // Perform a query on the pets table
+        String whereClause = "category = ?";
+        String[] whereArgs = new String[]{
+                message};
+        // Perform a query on the table
         Cursor cursor = database.query(
                 ProductEntry.TABLE_PRODUCTS,
                 allColumns,
-                null,
-                null,
+                whereClause,
+                whereArgs,
                 null,
                 null,
                 null,
@@ -130,6 +137,7 @@ public class ProductOperations {
                 product.setProductName(cursor.getString(2));
                 product.setManufacturingPlaces(cursor.getString(3));
                 product.setOrigins(cursor.getString(4));
+                product.setCategory(cursor.getString(5));
                 products.add(product);
             }
             cursor.close();

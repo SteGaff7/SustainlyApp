@@ -35,7 +35,7 @@ public final class ProductContract {
          */
         public static final String COLUMN_NAME = "name";
         /**
-         * Location of Product Manufactoring Company
+         * Location of Product Manufacturing Company
          *
          * Type: STRING
          */
@@ -46,6 +46,17 @@ public final class ProductContract {
          * Type: STRING
          */
         public static final String COLUMN_INGREDIENTS = "ingredientsOrigin";
+        /**
+         * Location of Product Ingredients
+         *
+         * Type: STRING
+         */
+        public static final String COLUMN_CATEGORIES = "category";
+        /**
+         * Category that product belongs to
+         *
+         * Type: STRING
+         */
 
     }
 }

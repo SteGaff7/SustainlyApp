@@ -4,16 +4,19 @@ public class Product {
     private String product_name_en;
     private String manufacturing_places;
     private String origins;
+    private String category;
 
 
-    public Product(String product_name_en, String manufacturing_places, String origins) {
+    public Product(String product_name_en, String manufacturing_places, String origins, String category) {
         this.product_name_en = product_name_en;
         this.manufacturing_places = manufacturing_places;
         this.origins = origins;
+        this.category="Unknown";
 
     }
 
-    public Product() {
+    public Product() { {
+    }
 
     }
 
@@ -43,6 +46,18 @@ public class Product {
     public void setOrigins(String origins) {
         this.origins = origins;
     }
+
+
+
+    public String getCategory() {
+
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
 
 
 }

@@ -50,7 +50,7 @@ public class SearchItems extends AppCompatActivity implements ProductAdapter.Lis
         final ProductOperations productOperations = new ProductOperations(this);
 
         // Initialize contacts
-        products = productOperations.filterCategory("fruit");
+        products = productOperations.filterCategory("Fruit");
         // Create adapter passing in the sample user data
         ProductAdapter adapter = new ProductAdapter(this, products);
         // Attach the adapter to the recyclerview to populate items
