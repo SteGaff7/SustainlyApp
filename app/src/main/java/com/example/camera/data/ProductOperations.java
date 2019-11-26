@@ -61,7 +61,7 @@ public class ProductOperations {
         String[] whereArgs = new String[]{
                 message
         };
-        // Perform a query on the pets table
+        // Perform a query on the table
         Cursor cursor = database.query(
                 ProductEntry.TABLE_PRODUCTS,
                 allColumns,
