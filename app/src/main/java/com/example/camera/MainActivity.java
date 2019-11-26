@@ -16,11 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.TextViewCompat;
 
-import com.example.camera.data.BarcodeDBHandler;
-
 public class MainActivity extends AppCompatActivity {
 
-
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -30,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Check internet connection
         if (isNetworkAvailable() == false) {
-            // Disable buttons & display toast
 
+            // Disable buttons & display toast
             Button scanButton = findViewById(R.id.button);
             Button lookupBarcode = findViewById(R.id.lookupBarcode);
             scanButton.setEnabled(false);
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        BarcodeDBHandler dbHelper = new BarcodeDBHandler(this);
+        //BarcodeDBHandler dbHelper = new BarcodeDBHandler(this);
 
         // Scan a Barcode
         Button btn = findViewById(R.id.button);
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Search DB
+        // Search Database
         final Button searchButton = findViewById(R.id.search);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,10 +83,12 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
+
         // Remove default title text
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+
         // Get access to the custom title view
         TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
         mTitle.setText("Home");
@@ -98,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+
         // Check internet connection
         if (isNetworkAvailable() == false) {
             // Disable buttons & display toast
@@ -118,6 +122,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Simple function to check if phone has an internet connection
+     * @return True if internet connection
+     */
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

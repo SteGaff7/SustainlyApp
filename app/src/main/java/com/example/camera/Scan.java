@@ -11,7 +11,6 @@ import android.provider.MediaStore;
 import android.util.SparseArray;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.google.android.gms.vision.Frame;
@@ -29,6 +28,10 @@ public class Scan extends Activity {
     static final int REQUEST_TAKE_PHOTO = 1;
     static final int CHECK_BARCODE_REQUEST = 3;
 
+    /**
+     * On create will simply call an intent that opens that built in camera application
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,11 @@ public class Scan extends Activity {
 
     String imageFilePath;
 
+    /**
+     * Creates a temp file path that the image from the camera will be stored at
+     * @return file path to where the image will be stored
+     * @throws IOException
+     */
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "IMG_" + timeStamp + "_";
