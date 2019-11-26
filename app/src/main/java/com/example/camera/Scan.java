@@ -60,7 +60,11 @@ public class Scan extends Activity {
         return image;
     }
 
-
+    /**
+     * Opens camera to capture an image of a barcode.
+     * Stores image at the file path specified above in the createImageFile() function by passing this in the intent
+     * Starts the capture picture intent for a callback on activity result
+     */
     private void openCameraIntent() {
         Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (pictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -88,7 +92,21 @@ public class Scan extends Activity {
         }
     }
 
-
+    /**
+     * Callback method when an activity returns with a result.
+     *
+     * On REQUEST_TAKE_PHOTO request code; a frame is created from the image captured using the camera
+     * stored at imageFilePath. Using Google vision the barcode number is detected from this frame
+     * and stored in the barcodes array from where it is accessed.
+     * The checkBarcode Activity is then started for a result with the barcode number passed as
+     * an extra. (This is a nested startActivityForResult call).
+     *
+     * On CHECK_BARCODE_REQUEST request code;
+     *
+     * @param requestCode Two possible request codes return, REQUEST_TAKE_PHOTO and CHECK_BARCODE_REQUEST
+     * @param resultCode RESULT_OK
+     * @param data information returned from the activity
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -101,24 +119,19 @@ public class Scan extends Activity {
         if (requestCode == REQUEST_TAKE_PHOTO) {
             //don't compare the data to null, it will always come as  null because we are providing a file URI,
             // so load with the imageFilePath we obtained before opening the cameraIntent
-            // mImageView = findViewById(R.id.myImageView);
-            //Glide.with(this).load(imageFilePath).into(mImageView);
 
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
 
                 Bitmap myBitmap = BitmapFactory.decodeFile(imageFilePath);
                 // Set image here if viewing it
-                //mImageView.setImageBitmap(myBitmap);
 
                 // Setup Barcode Detector
                 BarcodeDetector mDetector = new BarcodeDetector.Builder(getApplicationContext())
                         .setBarcodeFormats(0)
                         .build();
 
-                TextView mTextView = findViewById(R.id.textContent);
                 if (!mDetector.isOperational()) {
-                    mTextView.setText(getString(R.string.detector_error));
                     return;
                 }
 
@@ -134,25 +147,9 @@ public class Scan extends Activity {
                         Barcode thisCode = barcodes.valueAt(i);
                         String message = thisCode.rawValue;
 
-//                        // Create intent to show info
-//                        Intent intent = new Intent(getApplicationContext(), CheckBarcode.class);
-//                        // mTextView.setText(message);
-//                        intent.putExtra("com.example.camera.MESSAGE", message);
-//                        startActivity(intent);
-//                        //mTextView.append("In here");
-//                        // System.out.println("***************************************************"+thisCode.rawValue);
-//                        // mTextView.setText(thisCode.rawValue);
-
-//                        Intent enterBarcodeIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
-//                        enterBarcodeIntent.putExtra("com.example.camera.FLAG", "5");
-//                        enterBarcodeIntent.putExtra("com.example.camera.MESSAGE", message);
-//                        startActivity(enterBarcodeIntent);
-
-
                         Intent checkBarcodeIntent = new Intent(getApplicationContext(), CheckBarcode.class);
                         checkBarcodeIntent.putExtra("com.example.camera.MESSAGE", message);
                         startActivityForResult(checkBarcodeIntent, CHECK_BARCODE_REQUEST);
-//                        System.out.println("***************STARTED***************");
                     }
                 }
 
