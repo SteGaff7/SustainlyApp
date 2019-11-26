@@ -28,6 +28,7 @@ public class SearchItems extends AppCompatActivity implements ProductAdapter.Lis
         intent.putExtra("com.example.camera.INFO-NAME", productName);
         intent.putExtra("com.example.camera.INFO-MAN", manufacturingPlaces);
         intent.putExtra("com.example.camera.INFO-ORIGINS", origins);
+        intent.putExtra("com.example.camera.IN-DB", "0");
         startActivity(intent);
     }
 

@@ -1,12 +1,10 @@
 package com.example.camera;
 
 import android.app.Activity;
-import android.content.Context;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -41,12 +39,12 @@ public class CheckBarcode extends Activity {
             String manufacturingPlaces = generatedBarcode.getProduct().getManufacturingPlaces();
             String origins = generatedBarcode.getProduct().getOrigins();
 
-
             // Send results back to activity requesting it
             Intent redirectIntent = new Intent();
             redirectIntent.putExtra("com.example.camera.INFO-NAME", productName);
             redirectIntent.putExtra("com.example.camera.INFO-MAN", manufacturingPlaces);
             redirectIntent.putExtra("com.example.camera.INFO-ORIGINS", origins);
+            redirectIntent.putExtra("com.example.camera.IN-DB", "0");
             setResult(RESULT_OK, redirectIntent);
 
 
@@ -111,7 +109,7 @@ public class CheckBarcode extends Activity {
                                     intent.putExtra("com.example.camera.INFO-NAME", productName);
                                     intent.putExtra("com.example.camera.INFO-MAN", manufacturingPlaces);
                                     intent.putExtra("com.example.camera.INFO-ORIGINS", origins);
-                                    intent.putExtra("com.example.camera.INFO-WHERE", " Open Food Facts.org");
+                                    intent.putExtra("com.example.camera.IN-DB", "1");
                                     setResult(RESULT_OK,intent);
                                     finish();
 

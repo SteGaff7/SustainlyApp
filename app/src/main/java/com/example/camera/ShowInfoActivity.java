@@ -30,23 +30,26 @@ public class ShowInfoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String productName = intent.getStringExtra("com.example.camera.INFO-NAME");
         String manufacturingPlaces = intent.getStringExtra("com.example.camera.INFO-MAN");
-        final String origins = intent.getStringExtra("com.example.camera.INFO-ORIGINS");
+        String origins = intent.getStringExtra("com.example.camera.INFO-ORIGINS");
+        String inDB = intent.getStringExtra("com.example.camera.IN-DB");
+
+        if (inDB.equals("0")) {
+            title.append(" Local Database");
+        } else {
+            title.append(" Open Food Facts Org");
+        }
 
         if (productName != null && productName!="") {
-
-
             productTextView.setText(productName);
         } else {
             productTextView.setText(R.string.error);
         }
 
         if (manufacturingPlaces != null && manufacturingPlaces!="") {
-
             manuTextView.setText(getString(R.string.more_info_manu) + " " + manufacturingPlaces + ".");
         } else {
             manuTextView.setText(R.string.manu_error + ".");
         }
-
 
 
         if (origins != null && origins!="") {
@@ -55,6 +58,7 @@ public class ShowInfoActivity extends AppCompatActivity {
         } else {
             originTextView.setText(R.string.error);
         }
+
 
         //new map on button click
         final Button mapsButton = findViewById(R.id.more_info_origin);
