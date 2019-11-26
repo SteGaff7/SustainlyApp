@@ -28,9 +28,6 @@ public class ShowInfoActivity extends AppCompatActivity {
         final TextView title = findViewById(R.id.title);
 
         Intent intent = getIntent();
-        System.out.println("*************HERE**********");
-        System.out.println(intent.getStringExtra("com.example.camera.INFO-WHERE"));
-        title.setText(getString(R.string.results_from)+intent.getStringExtra("com.example.camera.INFO-WHERE"));
         String productName = intent.getStringExtra("com.example.camera.INFO-NAME");
         String manufacturingPlaces = intent.getStringExtra("com.example.camera.INFO-MAN");
         final String origins = intent.getStringExtra("com.example.camera.INFO-ORIGINS");
