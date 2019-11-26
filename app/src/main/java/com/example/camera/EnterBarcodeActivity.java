@@ -220,6 +220,29 @@ public class EnterBarcodeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Check internet connection
+        if (isNetworkAvailable() == false) {
+            // Disable buttons & display toast
+
+            Button submit = findViewById(R.id.Submit);
+            Button scan_again = findViewById(R.id.scan_again);
+            submit.setEnabled(false);
+            submit.setBackgroundColor(Color.GRAY);
+            scan_again.setEnabled(false);
+            scan_again.setBackgroundColor(Color.GRAY);
+
+            CharSequence toastText;
+            toastText = "No internet access, connect to the internet or search saved items!";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(getApplicationContext(), toastText, duration);
+            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 200);
+            toast.show();
+        }
+    }
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
