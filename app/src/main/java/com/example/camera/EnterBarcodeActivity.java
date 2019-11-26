@@ -1,7 +1,12 @@
 package com.example.camera;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.TextViewCompat;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class EnterBarcodeActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.example.camera.MESSAGE";
@@ -24,6 +33,28 @@ public class EnterBarcodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_barcode);
+
+
+
+        // Check internet connection
+        if (isNetworkAvailable() == false) {
+            // Disable buttons & display toast
+
+            Button submit = findViewById(R.id.Submit);
+            Button scan_again = findViewById(R.id.scan_again);
+            submit.setEnabled(false);
+            submit.setBackgroundColor(Color.GRAY);
+            scan_again.setEnabled(false);
+            scan_again.setBackgroundColor(Color.GRAY);
+
+            CharSequence toastText;
+            toastText = "No internet access, connect to the internet or search saved items!";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(getApplicationContext(), toastText, duration);
+            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 200);
+            toast.show();
+        }
+
 
         Intent intent = getIntent();
 
@@ -99,7 +130,7 @@ public class EnterBarcodeActivity extends AppCompatActivity {
                 Intent intent = new Intent(getBaseContext(), Scan.class);
                 startActivity(intent);
                 //startActivityForResult(intent, SCAN_BARCODE);
-                //finish();
+                finish();
             }
         });
 
@@ -187,6 +218,13 @@ public class EnterBarcodeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return (activeNetworkInfo != null && activeNetworkInfo.isConnected());
     }
 
 }

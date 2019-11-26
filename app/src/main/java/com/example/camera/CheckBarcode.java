@@ -41,11 +41,12 @@ public class CheckBarcode extends Activity {
             String manufacturingPlaces = generatedBarcode.getProduct().getManufacturingPlaces();
             String origins = generatedBarcode.getProduct().getOrigins();
 
-            Intent showInfoIntent = new Intent(getApplicationContext(), ShowInfoActivity.class);
-            showInfoIntent.putExtra("com.example.camera.INFO-NAME", productName);
-            showInfoIntent.putExtra("com.example.camera.INFO-MAN", manufacturingPlaces);
-            showInfoIntent.putExtra("com.example.camera.INFO-ORIGINS", origins);
-            startActivity(showInfoIntent);
+            // Send results back to activity requesting it
+            Intent redirectIntent = new Intent();
+            redirectIntent.putExtra("com.example.camera.INFO-NAME", productName);
+            redirectIntent.putExtra("com.example.camera.INFO-MAN", manufacturingPlaces);
+            redirectIntent.putExtra("com.example.camera.INFO-ORIGINS", origins);
+            setResult(RESULT_OK, redirectIntent);
 
             finish();
         }
