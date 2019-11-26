@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.SparseArray;
-import android.widget.TextView;
-
 import androidx.core.content.FileProvider;
 
 import com.google.android.gms.vision.Frame;
@@ -23,13 +21,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Scan activity is an activity without a layout, it handles camera logic without the need
+ * to duplicate code across multiple activities.
+ */
 public class Scan extends Activity {
 
     static final int REQUEST_TAKE_PHOTO = 1;
     static final int CHECK_BARCODE_REQUEST = 3;
 
     /**
-     * On create will simply call an intent that opens that built in camera application
+     * On create will simply call an intent that opens the built in camera application
      * @param savedInstanceState
      */
     @Override
@@ -101,7 +103,12 @@ public class Scan extends Activity {
      * The checkBarcode Activity is then started for a result with the barcode number passed as
      * an extra. (This is a nested startActivityForResult call).
      *
-     * On CHECK_BARCODE_REQUEST request code;
+     * On CHECK_BARCODE_REQUEST request code; check if any flags were returned from the checkBarcode
+     * Activity. If so redirect to the enterBarcodeActivity with this flag as an EXTRA.
+     * If no flags then checkBarcode Activity returned okay and forward bundle returned to the
+     * showInfo Activity to be displayed for the user.
+     *
+     * Finish activity
      *
      * @param requestCode Two possible request codes return, REQUEST_TAKE_PHOTO and CHECK_BARCODE_REQUEST
      * @param resultCode RESULT_OK
@@ -117,14 +124,13 @@ public class Scan extends Activity {
 
         // Check which request we're responding to
         if (requestCode == REQUEST_TAKE_PHOTO) {
-            //don't compare the data to null, it will always come as  null because we are providing a file URI,
+            // Don't compare the data to null, it will always come as  null because we are providing a file URI,
             // so load with the imageFilePath we obtained before opening the cameraIntent
 
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
 
                 Bitmap myBitmap = BitmapFactory.decodeFile(imageFilePath);
-                // Set image here if viewing it
 
                 // Setup Barcode Detector
                 BarcodeDetector mDetector = new BarcodeDetector.Builder(getApplicationContext())
@@ -176,6 +182,7 @@ public class Scan extends Activity {
                 if (data.hasExtra("com.example.camera.FLAG")) {
                     String flag = data.getStringExtra("com.example.camera.FLAG");
 
+                    // If flag then redirect appropriately
                     switch (flag) {
                         case "2": {
                             Intent redirectIntent = new Intent(getApplicationContext(), EnterBarcodeActivity.class);
@@ -196,7 +203,7 @@ public class Scan extends Activity {
 
                 else {
 
-                    // No flag so other intent started okay
+                    // No flag implies checkBarcode intent returned okay
                     Bundle extras = data.getExtras();
                     Intent showInfoIntent = new Intent(getApplicationContext(), ShowInfoActivity.class);
                     showInfoIntent.putExtras(extras);

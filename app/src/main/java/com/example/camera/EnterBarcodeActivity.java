@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,27 +18,38 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.TextViewCompat;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
+/**
+ * An activity that allows a user to enter a barcode number manually or another option to scan a
+ * barcode. Displays error messages to users through toasts.
+ */
 public class EnterBarcodeActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.example.camera.MESSAGE";
     static final int CHECK_BARCODE_REQUEST = 3;
     static final int SCAN_BARCODE = 2;
 
+    /**
+     * When created check if the phone has an internet connection. If false then disable the buttons
+     * and display a toast message informing the user.
+     *
+     * Get intent and EXTRAs that started this activity.
+     * If there is a flag then display appropriate toast message or if flag is 5 then a barcode
+     * number has been returned and must be passed to CheckBarcode Activity.
+     *
+     * On click of the submit button will take the barcode entered and start the CheckBarcode
+     * Activity for result.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_barcode);
 
-
-
         // Check internet connection
         if (isNetworkAvailable() == false) {
-            // Disable buttons & display toast
 
+            // Disable buttons & display toast
             Button submit = findViewById(R.id.Submit);
             Button scan_again = findViewById(R.id.scan_again);
             submit.setEnabled(false);
@@ -55,66 +65,63 @@ public class EnterBarcodeActivity extends AppCompatActivity {
             toast.show();
         }
 
-
         Intent intent = getIntent();
 
-
         if (intent.hasExtra("com.example.camera.FLAG")) {
-            System.out.println("*************GOT FLAG*****************");
+
             String flag = intent.getStringExtra("com.example.camera.FLAG");
 
-            CharSequence toastText;
-            switch (flag) {
-                case "2": {
-                    toastText = "No product matching barcode found!";
-                    System.out.println("******FLAG 2 - No product found in DB or API");
-                    break;
-                }
-                case "3": {
-                    toastText = "No information found on this product!";
-                    System.out.println("******FLAG 3 - No appropriate info found on prodcut");
-                    break;
-                }
-                default: {
-                    toastText = "";
-                }
-            }
-
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(getApplicationContext(), toastText, duration);
-            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 200);
-            toast.show();
-
-
-
-            if (flag.equals("1")) {
-                System.out.println(flag);
-                toastText = "No barcode could be detected, try again " +
-                        "or enter manually!";
-                duration = Toast.LENGTH_LONG;
-                toast = Toast.makeText(getApplicationContext(), toastText, duration);
-                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 200);
-                toast.show();
-            }
-
             if (flag.equals("5")) {
-                // Redirected from scan with message to handle
+
+                // Redirected from scan with message (barcode number) to handle
                 String message = intent.getStringExtra("com.example.camera.MESSAGE");
 
                 Intent checkBarcodeIntent = new Intent(getBaseContext(), CheckBarcode.class);
                 checkBarcodeIntent.putExtra("com.example.camera.MESSAGE", message);
                 startActivityForResult(checkBarcodeIntent, CHECK_BARCODE_REQUEST);
             }
+
+            else {
+                // Handle the flag with the appropriate toast message
+
+                CharSequence toastText;
+                switch (flag) {
+                    case "1": {
+                        toastText = "No barcode could be detected, try again or enter manually!";
+                        break;
+                    }
+                    case "2": {
+                        toastText = "No product matching barcode found!";
+                        break;
+                    }
+                    case "3": {
+                        toastText = "No information found on this product!";
+                        break;
+                    }
+                    default: {
+                        toastText = "";
+                    }
+                }
+
+                int duration = Toast.LENGTH_LONG;
+                Toast toast = Toast.makeText(getApplicationContext(), toastText, duration);
+                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 200);
+                toast.show();
+            }
         }
 
         // Enter a barcode manually
         final Button button = findViewById(R.id.Submit);
         button.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Takes the entered barcode and starts CheckBarcode Activity for result
+             * @param v
+             */
             public void onClick(View v) {
 
                 Intent checkBarcodeIntent = new Intent(getBaseContext(), CheckBarcode.class);
-                EditText editText = findViewById(R.id.enterText);
 
+                EditText editText = findViewById(R.id.enterText);
                 String message = editText.getText().toString();
 
                 checkBarcodeIntent.putExtra("com.example.camera.MESSAGE", message);
@@ -125,21 +132,26 @@ public class EnterBarcodeActivity extends AppCompatActivity {
         // Scan a Barcode
         Button btn = findViewById(R.id.scan_again);
         btn.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Simply starts the scan activity and finishes this current activity
+             * @param view
+             */
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getBaseContext(), Scan.class);
                 startActivity(intent);
-                //startActivityForResult(intent, SCAN_BARCODE);
                 finish();
             }
         });
 
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
+
         // Remove default title text
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+
         // Get access to the custom title view
         TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
         mTitle.setText(R.string.lookup_barcode);
@@ -149,6 +161,12 @@ public class EnterBarcodeActivity extends AppCompatActivity {
 
     }
 
+    /**
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param returnIntent
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {
         super.onActivityResult(requestCode, resultCode, returnIntent);
@@ -202,6 +220,7 @@ public class EnterBarcodeActivity extends AppCompatActivity {
         }
 
         else if (requestCode == SCAN_BARCODE) {
+
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 System.out.println("*************SCAN RETURNED OKAY**********");
@@ -210,25 +229,29 @@ public class EnterBarcodeActivity extends AppCompatActivity {
         }
     }
 
-    // NEEDED????
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
+
+        // Back arrow
         if (item.getItemId() == android.R.id.home) {
             finish(); // close this activity and return to preview activity (if there is any)
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * When activity is resumed, check if internet connection and if false then disable the buttons
+     * and display a toast message.
+     */
     @Override
     public void onResume() {
         super.onResume();
+
         // Check internet connection
         if (isNetworkAvailable() == false) {
-            // Disable buttons & display toast
 
+            // Disable buttons & display toast
             Button submit = findViewById(R.id.Submit);
             Button scan_again = findViewById(R.id.scan_again);
             submit.setEnabled(false);
@@ -245,6 +268,10 @@ public class EnterBarcodeActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Simple function to check if phone has an internet connection
+     * @return True if internet connection
+     */
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
