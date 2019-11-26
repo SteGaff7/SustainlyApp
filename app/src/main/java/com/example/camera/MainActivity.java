@@ -15,10 +15,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.TextViewCompat;
 
+/**
+ * This is the main activity that gives the user 3 different methods of searching for information
+ * on products.
+ *
+ * 1. Scan a barcode
+ * 2. Manually enter a barcode
+ * 3. Search the saved items in the database
+ */
 public class MainActivity extends AppCompatActivity {
 
     /**
-     *
+     * Check if the phone has an internet connection, if not then disable buttons that require
+     * internet access (Scan and enter a barcode) and display a toast message to the user.
      * @param savedInstanceState
      */
     @Override
@@ -26,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         // Check internet connection
         if (isNetworkAvailable() == false) {
@@ -46,9 +54,6 @@ public class MainActivity extends AppCompatActivity {
             toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 200);
             toast.show();
         }
-
-
-        //BarcodeDBHandler dbHelper = new BarcodeDBHandler(this);
 
         // Scan a Barcode
         Button btn = findViewById(R.id.button);
@@ -96,7 +101,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(R.drawable.ic_home_white_24dp);
     }
 
-
+    /**
+     * On resume check if the phone still has an internet connection. If no then disable buttons
+     * and display a toast message to the user.
+     */
     @Override
     public void onResume(){
         super.onResume();

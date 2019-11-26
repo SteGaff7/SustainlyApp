@@ -2,7 +2,6 @@ package com.example.camera;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -12,10 +11,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.TextViewCompat;
 
-
+/**
+ * This activity displays the information provided on the barcode to the user. It can also direct
+ * users to another activity that displays how far their product had to travel on a map
+ */
 public class ShowInfoActivity extends AppCompatActivity {
     private String location = "";
 
+    /**
+     * Get intent from the activity that started this activity.
+     * Display the appropriate values in their respective text view and check if they are null or
+     * empty strings.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +59,6 @@ public class ShowInfoActivity extends AppCompatActivity {
             manuTextView.setText(R.string.manu_error + ".");
         }
 
-
         if (origins != null && origins!="") {
            location = origins;
            originTextView.setText(getString(R.string.more_info_product) + " " + origins + ".");
@@ -59,10 +66,13 @@ public class ShowInfoActivity extends AppCompatActivity {
             originTextView.setText(R.string.error);
         }
 
-
-        //new map on button click
+        // Button to redirect to map activity
         final Button mapsButton = findViewById(R.id.more_info_origin);
         mapsButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Starts the Map Activity and sends it the origins of the products if defined.
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), MapsActivity.class);
@@ -73,28 +83,32 @@ public class ShowInfoActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
+
         // Remove default title text
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+
         // Get access to the custom title view
         TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
         mTitle.setText(R.string.brand_info);
         TextViewCompat.setTextAppearance(mTitle, R.style.Toolbar_TitleText);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
-
     }
 
-
+    /**
+     * Handles the back arrow in the toolbar
+     * @param item item of toolbar
+     * @return True/False
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
             finish();
-            return true;// close this activity and return to preview activity (if there is any)
+            return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

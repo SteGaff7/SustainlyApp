@@ -26,7 +26,6 @@ public class EnterBarcodeActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.example.camera.MESSAGE";
     static final int CHECK_BARCODE_REQUEST = 3;
-    static final int SCAN_BARCODE = 2;
 
     /**
      * When created check if the phone has an internet connection. If false then disable the buttons
@@ -82,8 +81,8 @@ public class EnterBarcodeActivity extends AppCompatActivity {
             }
 
             else {
-                // Handle the flag with the appropriate toast message
 
+                // Handle the flag with the appropriate toast message
                 CharSequence toastText;
                 switch (flag) {
                     case "1": {
@@ -162,22 +161,30 @@ public class EnterBarcodeActivity extends AppCompatActivity {
     }
 
     /**
+     * Callback method when an activity returns with a result.
      *
-     * @param requestCode
-     * @param resultCode
-     * @param returnIntent
+     * On CHECK_BARCODE_REQUEST; if result code == RESULT_OK then check if the intent has a FLAG
+     * and if it does then display the appropriate error message similar to above however this is
+     * specifically for callback methods when this activity calls checkBarcode and not when scan
+     * Activity redirects here.
+     * If there are no flags then simply send the data to the showInfo Activity.
+     *
+     * @param requestCode on requestCode; CHECK_BARCODE_REQUEST
+     * @param resultCode RESULT_OK
+     * @param returnIntent intent that returns information from the CheckBarcode Activity
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {
         super.onActivityResult(requestCode, resultCode, returnIntent);
-        System.out.println("******************HERE****************");
+
         if (requestCode == CHECK_BARCODE_REQUEST) {
+
              // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                System.out.println("*****************FURTHER************");
+
                 if (returnIntent.hasExtra("com.example.camera.FLAG")) {
+
                     String flag = returnIntent.getStringExtra("com.example.camera.FLAG");
-                    System.out.println("************** Redirected here, flag is " + flag);
 
                     CharSequence toastText;
                     switch (flag) {
@@ -218,23 +225,19 @@ public class EnterBarcodeActivity extends AppCompatActivity {
                 }
             }
         }
-
-        else if (requestCode == SCAN_BARCODE) {
-
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                System.out.println("*************SCAN RETURNED OKAY**********");
-            }
-
-        }
     }
 
+    /**
+     * Handles the back arrow in the toolbar
+     * @param item item of toolbar
+     * @return True/False
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         // Back arrow
         if (item.getItemId() == android.R.id.home) {
-            finish(); // close this activity and return to preview activity (if there is any)
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
