@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 200);
             toast.show();
         }
+
         // Scan a Barcode
         Button btn = findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -111,12 +112,19 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
+        Button scanButton = findViewById(R.id.button);
+        Button lookupBarcode = findViewById(R.id.lookupBarcode);
+
+        // Re-enable buttons
+        scanButton.setEnabled(true);
+        scanButton.setBackgroundColor(Color.WHITE);
+        lookupBarcode.setEnabled(true);
+        lookupBarcode.setBackgroundColor(Color.WHITE);
+
         // Check internet connection
         if (isNetworkAvailable()==false) {
 
             // Disable buttons & display toast
-            Button scanButton = findViewById(R.id.button);
-            Button lookupBarcode = findViewById(R.id.lookupBarcode);
             scanButton.setEnabled(false);
             scanButton.setBackgroundColor(Color.GRAY);
             lookupBarcode.setEnabled(false);
