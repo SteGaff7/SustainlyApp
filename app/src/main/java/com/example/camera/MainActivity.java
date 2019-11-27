@@ -113,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Check internet connection
         if (isNetworkAvailable()==false) {
-            // Disable buttons & display toast
 
+            // Disable buttons & display toast
             Button scanButton = findViewById(R.id.button);
             Button lookupBarcode = findViewById(R.id.lookupBarcode);
             scanButton.setEnabled(false);
