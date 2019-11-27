@@ -5,14 +5,20 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.TextViewCompat;
 
 /**
@@ -32,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -54,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
             toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 200);
             toast.show();
         }
-
         // Scan a Barcode
         Button btn = findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {

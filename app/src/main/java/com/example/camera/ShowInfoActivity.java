@@ -53,16 +53,20 @@ public class ShowInfoActivity extends AppCompatActivity {
             productTextView.setText(R.string.error);
         }
 
-        if (manufacturingPlaces != null && !manufacturingPlaces.equals("")) {
+        if (manufacturingPlaces != null && manufacturingPlaces!="") {
             manuTextView.setText(getString(R.string.more_info_manu) + " " + manufacturingPlaces + ".");
         } else {
-            manuTextView.setText(getString(R.string.manu_error) );
+            manuTextView.setText(R.string.manu_error + ".");
         }
+
+
         if (origins != null && !origins.equals("")) {
            location = origins;
            originTextView.setText(getString(R.string.more_info_product) + " " + origins + ".");
         } else {
-            originTextView.setText(getString(R.string.origin_error));
+            originTextView.setText(R.string.error);
+            final Button mapsButton = findViewById(R.id.more_info_origin);
+            mapsButton.setVisibility(View.GONE);
         }
 
         // Button to redirect to map activity
