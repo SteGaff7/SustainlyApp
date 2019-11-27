@@ -47,16 +47,16 @@ public class ShowInfoActivity extends AppCompatActivity {
             title.append(" Open Food Facts Org");
         }
 
-        if (productName != null && productName!="") {
+        if (productName != null && !productName.equals("")) {
             productTextView.setText(productName);
         } else {
             productTextView.setText(R.string.error);
         }
 
-        if (manufacturingPlaces != null && manufacturingPlaces!="") {
+        if (manufacturingPlaces != null && !manufacturingPlaces.equals("")) {
             manuTextView.setText(getString(R.string.more_info_manu) + " " + manufacturingPlaces + ".");
         } else {
-            manuTextView.setText(R.string.manu_error + ".");
+            manuTextView.setText(getString(R.string.manu_error));
         }
 
 
@@ -64,7 +64,7 @@ public class ShowInfoActivity extends AppCompatActivity {
            location = origins;
            originTextView.setText(getString(R.string.more_info_product) + " " + origins + ".");
         } else {
-            originTextView.setText(R.string.error);
+            originTextView.setText(getString(R.string.origin_error));
             final Button mapsButton = findViewById(R.id.more_info_origin);
             mapsButton.setVisibility(View.GONE);
         }
