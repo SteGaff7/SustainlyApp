@@ -59,11 +59,14 @@ public class ShowInfoActivity extends AppCompatActivity {
             manuTextView.setText(R.string.manu_error + ".");
         }
 
-        if (origins != null && origins!="") {
+
+        if (origins != null && !origins.equals("")) {
            location = origins;
            originTextView.setText(getString(R.string.more_info_product) + " " + origins + ".");
         } else {
             originTextView.setText(R.string.error);
+            final Button mapsButton = findViewById(R.id.more_info_origin);
+            mapsButton.setVisibility(View.GONE);
         }
 
         // Button to redirect to map activity

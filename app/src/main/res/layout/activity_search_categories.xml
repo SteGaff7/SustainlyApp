@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/main_background_ver"
+    android:background="@color/lightGray"
     tools:context=".SearchCategories"
     android:orientation="vertical">
 
@@ -17,12 +17,12 @@
     <GridView
         android:id="@+id/gridview"
         android:layout_width="match_parent"
-        android:layout_height="711dp"
+        android:layout_height="680dp"
+        android:layout_marginTop="60dp"
         android:layout_marginBottom="360dp"
         android:columnWidth="150dp"
         android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:numColumns="3"
+        android:numColumns="2"
         android:stretchMode="spacingWidthUniform"
         android:verticalSpacing="12dp" />
 

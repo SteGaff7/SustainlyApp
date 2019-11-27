@@ -16,11 +16,16 @@
     <string name="more_info_product">The company states that the ingredients for this product are sourced in </string>
     <string name="error">No information found. </string>
     <string name="detector_error">"Could not set up detector"</string>
+    <string name="title_location_permission">Location Permission</string>
+    <string name="text_location_permission">Hi there, we need to get your location to see
+        where you are! If you deny permissions, we will assume a default location of
+        Dublin, Ireland. </string>
 
 
     <!--buttons-->
     <string name="EnterBarcode">Scan Barcode</string>
     <string name="lookup_barcode">Type barcode</string>
+    <string name="ok">Got it</string>
     <string name="scan_again">Scan Again</string>
     <string name="submit">Submit</string>
     <string name="search_button">Search Item</string>
