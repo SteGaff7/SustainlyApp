@@ -10,7 +10,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.camera.data.ProductOperations;
+import com.example.camera.util.Barcode;
+import com.example.camera.database.ProductOperations;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -25,7 +26,7 @@ public class CheckBarcode extends Activity {
      * Retrieve intent that started this activity. Retrieve message which refers to the barcode
      * number. Check if this barcode number is stored in local DB. If so then retrieve information
      * and send back to the activity requesting it.
-     *
+     * <p>
      * If it is not in the DB then call the Open Food Fact API.
      * If there are no results or no appropriate info then redirect to enterBarcode Activity with
      * a flag.
@@ -46,7 +47,7 @@ public class CheckBarcode extends Activity {
 
         final ProductOperations productOperations = new ProductOperations(this);
         Barcode generatedBarcode = productOperations.getBarcode(message);
-
+        //if barcode is in the database
         if (generatedBarcode.getInDB()) {
 
             String productName = generatedBarcode.getProduct().getProductName();
@@ -63,7 +64,7 @@ public class CheckBarcode extends Activity {
 
             finish();
         }
-
+        //check API for barcode
         else {
 
             String URL = "https://world.openfoodfacts.org/api/v0/product/" + message + ".json";
@@ -96,7 +97,7 @@ public class CheckBarcode extends Activity {
                                 String manufacturingPlaces = barcode.getProduct().getManufacturingPlaces();
                                 String origins = barcode.getProduct().getOrigins();
 
-                                if ((productName == null || productName == "") &  (manufacturingPlaces == null || manufacturingPlaces == "") & (origins == null || origins == "")) {
+                                if ((productName == null || productName.equals("")) & (manufacturingPlaces == null || manufacturingPlaces.equals("")) & (origins == null || origins.equals(""))) {
 
                                     // Redirect to enter barcode, product found but no appropriate info on it
                                     Intent redirectIntent = new Intent();
@@ -115,7 +116,7 @@ public class CheckBarcode extends Activity {
                                     intent.putExtra("com.example.camera.INFO-MAN", manufacturingPlaces);
                                     intent.putExtra("com.example.camera.INFO-ORIGINS", origins);
                                     intent.putExtra("com.example.camera.IN-DB", "1");
-                                    setResult(RESULT_OK,intent);
+                                    setResult(RESULT_OK, intent);
                                     finish();
                                 }
                             }

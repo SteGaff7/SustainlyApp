@@ -1,29 +1,21 @@
-package com.example.camera.data;
+package com.example.camera.database;
 
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import com.example.camera.Barcode;
-import com.example.camera.Product;
-import com.example.camera.data.ProductContract.ProductEntry;
-import com.example.camera.data.BarcodeDBHandler;
+import com.example.camera.util.Product;
+import com.example.camera.util.Barcode;
 
 import java.util.ArrayList;
-import java.util.List;
 
-
+/**
+ * A utility class to interact with the database
+ */
 public class ProductOperations {
     public static final String LOGTAG = "EMP_MNGMNT_SYS";
-
-    // Database helper that will provide us access to the database
-    private BarcodeDBHandler dbhandler;
-
     // String representation of database columns for queries
     private static final String[] allColumns = {
             ProductEntry.COLUMN_BARCODE,
@@ -34,7 +26,8 @@ public class ProductOperations {
             ProductEntry.COLUMN_CATEGORIES
 
     };
-
+    // Database helper that will provide us access to the database
+    private BarcodeDBHandler dbhandler;
 
     public ProductOperations(Context context) {
 
@@ -86,22 +79,15 @@ public class ProductOperations {
                 null);
 
         //Objects to be returned
-        Product product = new Product();
         Barcode returnedBarcode = new Barcode();
 
         //if item is in the database already
         if (cursor != null && cursor.getCount()>0) {
             cursor.moveToFirst();
-
+            Product product = new Product(cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
             returnedBarcode.setCode(cursor.getString(0));
             returnedBarcode.setStatus(cursor.getInt(1));
             returnedBarcode.setInDB(true);
-
-            product.setProductName(cursor.getString(2));
-            product.setManufacturingPlaces(cursor.getString(3));
-            product.setOrigins(cursor.getString(4));
-            product.setCategory(cursor.getString(5));
-
             returnedBarcode.setProduct(product);
             cursor.close();
 
@@ -110,7 +96,12 @@ public class ProductOperations {
         return returnedBarcode;
     }
 
-    // Getting single Barcode
+    /**
+     * Queries the database and returns products of a specific category
+     *
+     * @param message containing column and query information
+     * @return ArrayList containing {@link Product}
+     */
     public ArrayList<Product> filterCategory(String message) {
         // Create and/or open a database to read from it
         SQLiteDatabase database=dbhandler.getReadableDatabase();
@@ -131,13 +122,9 @@ public class ProductOperations {
         //Objects to be returned
         ArrayList<Product> products = new ArrayList<>(cursor.getCount());
         //if item is in the database already
-        if (cursor != null && cursor.getCount()>0) {
+        if (cursor.getCount()>0) {
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                Product product = new Product();
-                product.setProductName(cursor.getString(2));
-                product.setManufacturingPlaces(cursor.getString(3));
-                product.setOrigins(cursor.getString(4));
-                product.setCategory(cursor.getString(5));
+                Product product = new Product(cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
                 products.add(product);
             }
             cursor.close();

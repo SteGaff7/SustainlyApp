@@ -22,6 +22,7 @@ public class ShowInfoActivity extends AppCompatActivity {
      * Get intent from the activity that started this activity.
      * Display the appropriate values in their respective text view and check if they are null or
      * empty strings.
+     *
      * @param savedInstanceState
      */
     @Override
@@ -41,28 +42,28 @@ public class ShowInfoActivity extends AppCompatActivity {
         String origins = intent.getStringExtra("com.example.camera.INFO-ORIGINS");
         String inDB = intent.getStringExtra("com.example.camera.IN-DB");
 
+        //check to see if results are in the database
         if (inDB.equals("0")) {
             title.append(" Local Database");
         } else {
             title.append(" Open Food Facts Org");
         }
-
+        //check to see if the product name couldn't be found
         if (productName != null && !productName.equals("")) {
             productTextView.setText(productName);
         } else {
             productTextView.setText(R.string.error);
         }
-
+        //check to see if the manufacturing name couldn't be found
         if (manufacturingPlaces != null && !manufacturingPlaces.equals("")) {
             manuTextView.setText(getString(R.string.more_info_manu) + " " + manufacturingPlaces + ".");
         } else {
             manuTextView.setText(getString(R.string.manu_error));
         }
-
-
+        //check to see if origin couldn't be found
         if (origins != null && !origins.equals("")) {
-           location = origins;
-           originTextView.setText(getString(R.string.more_info_product) + " " + origins + ".");
+            location = origins;
+            originTextView.setText(getString(R.string.more_info_product) + " " + origins + ".");
         } else {
             originTextView.setText(getString(R.string.origin_error));
             final Button mapsButton = findViewById(R.id.more_info_origin);
@@ -88,7 +89,7 @@ public class ShowInfoActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Remove default title text
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
@@ -102,6 +103,7 @@ public class ShowInfoActivity extends AppCompatActivity {
 
     /**
      * Handles the back arrow in the toolbar
+     *
      * @param item item of toolbar
      * @return True/False
      */

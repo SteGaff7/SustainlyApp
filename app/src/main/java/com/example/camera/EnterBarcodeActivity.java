@@ -30,11 +30,11 @@ public class EnterBarcodeActivity extends AppCompatActivity {
     /**
      * When created check if the phone has an internet connection. If false then disable the buttons
      * and display a toast message informing the user.
-     *
+     * <p>
      * Get intent and EXTRAs that started this activity.
      * If there is a flag then display appropriate toast message or if flag is 5 then a barcode
      * number has been returned and must be passed to CheckBarcode Activity.
-     *
+     * <p>
      * On click of the submit button will take the barcode entered and start the CheckBarcode
      * Activity for result.
      *
@@ -78,9 +78,7 @@ public class EnterBarcodeActivity extends AppCompatActivity {
                 Intent checkBarcodeIntent = new Intent(getBaseContext(), CheckBarcode.class);
                 checkBarcodeIntent.putExtra("com.example.camera.MESSAGE", message);
                 startActivityForResult(checkBarcodeIntent, CHECK_BARCODE_REQUEST);
-            }
-
-            else {
+            } else {
 
                 // Handle the flag with the appropriate toast message
                 CharSequence toastText;
@@ -147,7 +145,7 @@ public class EnterBarcodeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Remove default title text
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
@@ -162,15 +160,15 @@ public class EnterBarcodeActivity extends AppCompatActivity {
 
     /**
      * Callback method when an activity returns with a result.
-     *
+     * <p>
      * On CHECK_BARCODE_REQUEST; if result code == RESULT_OK then check if the intent has a FLAG
      * and if it does then display the appropriate error message similar to above however this is
      * specifically for callback methods when this activity calls checkBarcode and not when scan
      * Activity redirects here.
      * If there are no flags then simply send the data to the showInfo Activity.
      *
-     * @param requestCode on requestCode; CHECK_BARCODE_REQUEST
-     * @param resultCode RESULT_OK
+     * @param requestCode  on requestCode; CHECK_BARCODE_REQUEST
+     * @param resultCode   RESULT_OK
      * @param returnIntent intent that returns information from the CheckBarcode Activity
      */
     @Override
@@ -179,7 +177,7 @@ public class EnterBarcodeActivity extends AppCompatActivity {
 
         if (requestCode == CHECK_BARCODE_REQUEST) {
 
-             // Make sure the request was successful
+            // Make sure the request was successful
             if (resultCode == RESULT_OK) {
 
                 if (returnIntent.hasExtra("com.example.camera.FLAG")) {
@@ -211,11 +209,9 @@ public class EnterBarcodeActivity extends AppCompatActivity {
 
                     int duration = Toast.LENGTH_LONG;
                     Toast toast = Toast.makeText(getApplicationContext(), toastText, duration);
-                    toast.setGravity(Gravity.TOP| Gravity.CENTER_HORIZONTAL, 0, 200);
+                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 200);
                     toast.show();
-                }
-
-                else {
+                } else {
 
                     // No flag so other intent started okay
                     Bundle extras = returnIntent.getExtras();
@@ -229,6 +225,7 @@ public class EnterBarcodeActivity extends AppCompatActivity {
 
     /**
      * Handles the back arrow in the toolbar
+     *
      * @param item item of toolbar
      * @return True/False
      */
@@ -273,6 +270,7 @@ public class EnterBarcodeActivity extends AppCompatActivity {
 
     /**
      * Simple function to check if phone has an internet connection
+     *
      * @return True if internet connection
      */
     private boolean isNetworkAvailable() {

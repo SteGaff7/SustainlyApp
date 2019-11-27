@@ -1,4 +1,4 @@
-package com.example.camera;
+package com.example.camera.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,24 +8,27 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.camera.R;
+import com.example.camera.util.Product;
+
 import java.util.List;
 
-// Create the basic adapter extending from RecyclerView.Adapter
-// Note that we specify the custom ViewHolder which gives us access to our views
+/**
+ * Create the basic adapter extending from RecyclerView.Adapter
+ * Note that we specify the custom ViewHolder which gives us access to our views
+ */
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        // Your holder should contain a member variable
-        // for any view that will be set as you render a row
+
+
         TextView nameTextView;
         TextView manuTextView;
         String originTextView;
 
 
-        // We also create a constructor that accepts the entire item row
-        // and does the view lookups to find each subview
         ViewHolder(View itemView) {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
@@ -47,6 +50,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                     manuTextView.getText().toString(), originTextView);
         }
     }
+    //----------------------------end of nested class------------------------------------//
 
     final private ListItemClickListener mOnClickListener;
 
@@ -58,12 +62,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     private List<Product> mProducts;
 
     // Pass in the contact array into the constructor
-    ProductAdapter(ListItemClickListener listener, List<Product> products) {
+    public ProductAdapter(ListItemClickListener listener, List<Product> products) {
         mProducts = products;
         mOnClickListener = listener;
     }
 
-    // Usually involves inflating a layout from XML and returning the holder
     @Override
     public ProductAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();

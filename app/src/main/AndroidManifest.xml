@@ -24,7 +24,7 @@
         <activity android:name=".CheckBarcode" android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
         <activity android:name=".Scan" android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
         <activity android:name=".SearchItems" />
-        <activity android:name=".SearchCategories" />
+        <activity android:name=".SearchCategoriesActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

@@ -5,10 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -18,13 +14,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.widget.TextViewCompat;
 
 /**
  * This is the main activity that gives the user 3 different methods of searching for information
  * on products.
- *
+ * <p>
  * 1. Scan a barcode
  * 2. Manually enter a barcode
  * 3. Search the saved items in the database
@@ -34,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Check if the phone has an internet connection, if not then disable buttons that require
      * internet access (Scan and enter a barcode) and display a toast message to the user.
+     *
      * @param savedInstanceState
      */
     @Override
@@ -86,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), SearchCategories.class);
+                Intent intent = new Intent(getBaseContext(), SearchCategoriesActivity.class);
                 startActivity(intent);
             }
         });
@@ -95,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Remove default title text
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
@@ -112,11 +108,11 @@ public class MainActivity extends AppCompatActivity {
      * and display a toast message to the user.
      */
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
         // Check internet connection
-        if (isNetworkAvailable() == false) {
+        if (isNetworkAvailable()==false) {
             // Disable buttons & display toast
 
             Button scanButton = findViewById(R.id.button);
@@ -137,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Simple function to check if phone has an internet connection
+     *
      * @return True if internet connection
      */
     private boolean isNetworkAvailable() {

@@ -1,5 +1,8 @@
-package com.example.camera;
+package com.example.camera.util;
 
+/**
+ * Creates Product objects
+ */
 public class Product {
     private String product_name_en;
     private String manufacturing_places;
@@ -11,13 +14,7 @@ public class Product {
         this.product_name_en = product_name_en;
         this.manufacturing_places = manufacturing_places;
         this.origins = origins;
-        this.category="Unknown";
-
-    }
-
-    public Product() { {
-    }
-
+        this.category = "Unknown";
     }
 
     public String getProductName() {
@@ -26,6 +23,7 @@ public class Product {
     }
 
     public void setProductName(String product_name_en) {
+
         this.product_name_en = product_name_en;
     }
 
@@ -35,6 +33,7 @@ public class Product {
     }
 
     public void setManufacturingPlaces(String manufacturing_places) {
+
         this.manufacturing_places = manufacturing_places;
     }
 
@@ -44,9 +43,9 @@ public class Product {
     }
 
     public void setOrigins(String origins) {
+
         this.origins = origins;
     }
-
 
 
     public String getCategory() {
@@ -55,9 +54,8 @@ public class Product {
     }
 
     public void setCategory(String category) {
+
         this.category = category;
     }
-
-
 
 }

@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.camera.data.ProductOperations;
+import com.example.camera.adapters.ProductAdapter;
+import com.example.camera.database.ProductOperations;
+import com.example.camera.util.Product;
 
 import java.util.ArrayList;
 
@@ -51,7 +53,7 @@ public class SearchItems extends AppCompatActivity implements ProductAdapter.Lis
         final ProductOperations productOperations = new ProductOperations(this);
 
         Intent intent = getIntent();
-        String category = intent.getStringExtra(SearchCategories.EXTRA_MESSAGE);
+        String category = intent.getStringExtra(SearchCategoriesActivity.EXTRA_MESSAGE);
 
 
 
