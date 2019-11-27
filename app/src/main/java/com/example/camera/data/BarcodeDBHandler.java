@@ -26,11 +26,14 @@ public class BarcodeDBHandler extends SQLiteOpenHelper{
      */
 
     public BarcodeDBHandler(Context context){
+
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
 
     /**
-     * This is called when the database is created for the first time.
+     * Called to create a database locally.
+     *
+     * @param db
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -68,7 +71,11 @@ public class BarcodeDBHandler extends SQLiteOpenHelper{
     }
 
     /**
-     * This is called when the database needs to be upgraded.
+     * Updates the local database when schema is changes.
+     *
+     * @param db instance
+     * @param oldVersion previous version of database version
+     * @param newVersion latest version of database version
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

@@ -14,7 +14,7 @@ public final class ProductContract {
      */
     public static final class ProductEntry implements BaseColumns {
 
-        /** Name of database table for barcodes */
+        // Name of database table for barcodes
         public static final String TABLE_PRODUCTS = "products";
         /**
          * Unique ID number for the barcode.
@@ -23,7 +23,7 @@ public final class ProductContract {
          */
         public static final String COLUMN_BARCODE = "barcode";
         /**
-         * Unique ID number for the barcode.
+         * Indicates whether an item is in the database
          *
          * Type: STRING
          */
@@ -41,22 +41,18 @@ public final class ProductContract {
          */
         public static final String COLUMN_MANUF_LOCATION = "manufacturingLocation";
         /**
-         * Location of Product Ingredients
+         * Location of Product's Ingredients
          *
          * Type: STRING
          */
         public static final String COLUMN_INGREDIENTS = "ingredientsOrigin";
         /**
-         * Location of Product Ingredients
+         * Category of the product e.g. beverage, snack
          *
          * Type: STRING
          */
         public static final String COLUMN_CATEGORIES = "category";
-        /**
-         * Category that product belongs to
-         *
-         * Type: STRING
-         */
+
 
     }
 }

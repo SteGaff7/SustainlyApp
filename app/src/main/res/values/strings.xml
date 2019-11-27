@@ -13,6 +13,7 @@
     <string name="carbon">Know your Carbon Footprint</string>
     <string name="more_info_manu">The company\'s headquarters is in </string>
     <string name="manu_error">There is no information found about the manufacturing company. </string>
+    <string name="origin_error">There is no information about the origins of this product\'s ingredients. </string>
     <string name="more_info_product">The company states that the ingredients for this product are sourced in </string>
     <string name="error">No information found. </string>
     <string name="detector_error">"Could not set up detector"</string>

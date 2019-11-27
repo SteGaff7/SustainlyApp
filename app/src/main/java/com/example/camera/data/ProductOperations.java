@@ -21,9 +21,10 @@ import java.util.List;
 public class ProductOperations {
     public static final String LOGTAG = "EMP_MNGMNT_SYS";
 
-    /** Database helper that will provide us access to the database */
+    // Database helper that will provide us access to the database
     private BarcodeDBHandler dbhandler;
 
+    // String representation of database columns for queries
     private static final String[] allColumns = {
             ProductEntry.COLUMN_BARCODE,
             ProductEntry.COLUMN_STATUS,
@@ -34,10 +35,17 @@ public class ProductOperations {
 
     };
 
+
     public ProductOperations(Context context) {
+
         dbhandler = new BarcodeDBHandler(context);
     }
 
+    /**
+     * Adds a barcode and related information to the database
+     *
+     * @param barcode of product
+     */
     public void addBarcode(Barcode barcode) {
 
         SQLiteDatabase database=dbhandler.getWritableDatabase();
@@ -53,7 +61,12 @@ public class ProductOperations {
 
     }
 
-    // Getting single Barcode
+    /**
+     * Queries the database products table to retrieve a barcode
+     *
+     * @param message containing column and query information
+     * @return {@link Barcode} from database
+     */
     public Barcode getBarcode(String message) {
         // Create and/or open a database to read from it
         SQLiteDatabase database=dbhandler.getReadableDatabase();
@@ -95,19 +108,6 @@ public class ProductOperations {
         }
         database.close();
         return returnedBarcode;
-    }
-
-
-    public int count() {
-
-        SQLiteDatabase db = dbhandler.getWritableDatabase();
-
-        String sql = "SELECT * FROM products";
-        int recordCount = db.rawQuery(sql, null).getCount();
-        db.close();
-
-        return recordCount;
-
     }
 
     // Getting single Barcode
