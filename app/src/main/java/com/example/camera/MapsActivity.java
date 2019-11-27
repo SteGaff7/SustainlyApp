@@ -19,23 +19,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.TextViewCompat;
 import android.view.Menu;
-import android.view.MenuInflater;
 
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.GeoDataClient;
-import com.google.android.gms.location.places.PlaceDetectionClient;
-import com.google.android.gms.location.places.PlaceLikelihood;
-import com.google.android.gms.location.places.PlaceLikelihoodBufferResponse;
-import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -43,7 +35,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,6 +53,7 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.lang.Math;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 /**
  * An activity that displays a map showing the place at the device's current location.
@@ -73,13 +65,10 @@ public class MapsActivity extends AppCompatActivity
     private Toolbar toolbar;
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
-    private CameraPosition mCameraPosition;
     private LatLng latLng;
+    private CameraPosition mCameraPosition;
     LatLng currLoc;
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    // The entry points to the Places API.
-    private GeoDataClient mGeoDataClient;
-    private PlaceDetectionClient mPlaceDetectionClient;
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -103,9 +92,14 @@ public class MapsActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Bundle extras = getIntent().getExtras();
-        String value = "";
+        String value;
         if (extras != null) {
             value = extras.getString("Location");
+            if (value.contains(",")) {
+                String[] holder = value.split(",");
+                value = holder[holder.length - 1];
+                value = value.trim();
+            }
             //latLng = new LatLng(42.364506, -71.03888);
             //The key argument here must match that used in the other activity
         }
@@ -117,7 +111,7 @@ public class MapsActivity extends AppCompatActivity
         Writer writer = new StringWriter();
         char[] buffer = new char[1024];
         try {
-            Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            Reader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             int n;
             while ((n = reader.read(buffer)) != -1) {
                 writer.write(buffer, 0, n);
@@ -176,12 +170,6 @@ public class MapsActivity extends AppCompatActivity
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_maps);
 
-        // Construct a GeoDataClient.
-        mGeoDataClient = Places.getGeoDataClient(this, null);
-
-        // Construct a PlaceDetectionClient.
-        mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
-
         // Construct a FusedLocationProviderClient.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -198,7 +186,7 @@ public class MapsActivity extends AppCompatActivity
             }
         });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         // Remove default title text
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -270,10 +258,10 @@ public class MapsActivity extends AppCompatActivity
                 View infoWindow = getLayoutInflater().inflate(R.layout.custom_info_contents,
                         (FrameLayout) findViewById(R.id.map), false);
 
-                TextView title = ((TextView) infoWindow.findViewById(R.id.title));
+                TextView title = infoWindow.findViewById(R.id.title);
                 title.setText(marker.getTitle());
 
-                TextView snippet = ((TextView) infoWindow.findViewById(R.id.snippet));
+                TextView snippet = infoWindow.findViewById(R.id.snippet);
                 snippet.setText(marker.getSnippet());
 
                 return infoWindow;
@@ -308,7 +296,7 @@ public class MapsActivity extends AppCompatActivity
                         if (task.isSuccessful()) {
                             // Set the map's camera position to the current location of the device.
                             mLastKnownLocation = task.getResult();
-                 buildMap(true, mLastKnownLocation);
+                            buildMap(true, mLastKnownLocation);
                         }
                     }
                 });
@@ -376,7 +364,7 @@ public class MapsActivity extends AppCompatActivity
      */
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
+                                           @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         mLocationPermissionGranted = false;
         switch (requestCode) {
@@ -419,6 +407,13 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Helper method that sets up the polyline that is drawn on the map, and also sets up the adding
+     * of the text to the map that discusses the distance the food has travelled etc.
+     *
+     * @param locAllowed is whether the user has allowed location permissions
+     * @param myLoc is the user's location
+     */
     private void buildMap(boolean locAllowed, Location myLoc) {
         if (locAllowed) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
@@ -436,50 +431,63 @@ public class MapsActivity extends AppCompatActivity
             Location startLoc = new Location("point A");
             startLoc.setLatitude(latLng.latitude);
             startLoc.setLongitude(latLng.longitude);
-            float distance = (startLoc.distanceTo(myLoc)) / 1000;
-            float co2 = 0;
-            if (distance >= 200) {
-                co2 = distance * 135;
-            } else {
-                co2 = distance * 142;
-            }
-            co2 = Math.round(co2/1000);
-            distance = Math.round(distance);
-            TextView tv1 = (TextView) findViewById(R.id.infoText);
-            String setText =
-                    "Distance Food Traveled: " + distance + " km\n" +
-                            "CO2 released: " + co2  + "kg of CO2\n" +
-                            "Buy locally to increase sustainability!";
-            tv1.setText(setText);
-
+            setText(startLoc, myLoc);
         } else {
             if (line != null) {
                 line.remove();
             }
-             line = mMap.addPolyline(new PolylineOptions()
+            line = mMap.addPolyline(new PolylineOptions()
                     .add(latLng, currLoc)
                     .width(10)
                     .color(Color.BLUE));
             Location startLoc = new Location("point A");
             startLoc.setLatitude(latLng.latitude);
             startLoc.setLongitude(latLng.longitude);
-            float distance = (startLoc.distanceTo(myLoc)) / 1000;
-            float co2 = 0;
-            if (distance >= 200) {
-                co2 = distance * 135;
-            } else {
-                co2 = distance * 142;
-            }
-            co2 = Math.round(co2/1000);
-            distance = Math.round(distance);
-            TextView tv1 = (TextView) findViewById(R.id.infoText);
-            String setText =
-                    "Distance Food Traveled: " + distance + " km\n" +
-                            "CO2 released: " + co2  + "kg of CO2\n" +
-                            "Buy locally to increase sustainability!";
-            tv1.setText(setText);
-
+            setText(myLoc, startLoc);
         }
     }
 
+    /**
+     * This is a helper method that sets up the text, which includes calculating the
+     * sustainability grade based on distance the food has traveled.
+     *
+     * @param myLoc user location
+     * @param startLoc starting location of the food
+     */
+    private void setText(Location myLoc, Location startLoc) {
+        float distance = (startLoc.distanceTo(myLoc)) / 1000;
+        float co2;
+        if (distance >= 200) {
+            co2 = distance * 135;
+        } else {
+            co2 = distance * 142;
+        }
+        String grade;
+        if (distance <= 500) {
+            grade = "A";
+        }
+        else if (distance > 500 & distance < 2000) {
+            grade = "B";
+        }
+        else if (distance > 2000 && distance < 5000) {
+            grade = "C";
+        }
+        else if (distance > 5000 && distance < 10000) {
+            grade = "D";
+        }
+        else {
+            grade = "F";
+        }
+        co2 = Math.round(co2/1000);
+        distance = Math.round(distance);
+        TextView tv1 = findViewById(R.id.infoText);
+        String setText =
+                "Distance Food Traveled: " + distance + " km\n" +
+                        "CO2 released: " + co2  + "kg of CO2\n" +
+                        "Your sustainability grade based on the origin of your food is a " +
+                        "grade of: " + grade;
+        tv1.setText(setText);
+    }
+
 }
+
