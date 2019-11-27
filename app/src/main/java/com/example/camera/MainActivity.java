@@ -1,13 +1,18 @@
 package com.example.camera;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.TextViewCompat;
 
 import com.example.camera.data.BarcodeDBHandler;
@@ -18,10 +23,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BarcodeDBHandler dbHelper = new BarcodeDBHandler(this);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            Context context = getApplicationContext();
+            CharSequence text = "This app relies on getting your user location, if you do not " +
+                    "allow user location permissions, you will experience limited functionality, " +
+                    "and your location will be assumed to be Dublin, Ireland.";
+            int duration = Toast.LENGTH_LONG;
 
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+
+        }
         // Scan a Barcode
         Button btn = findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {

@@ -54,11 +54,13 @@ public class ShowInfoActivity extends AppCompatActivity {
 
 
 
-        if (origins != null || origins=="") {
+        if (origins != null && !origins.equals("")) {
            location = origins;
            originTextView.setText(getString(R.string.more_info_product) + " " + origins + ".");
         } else {
             originTextView.setText(R.string.error);
+            final Button mapsButton = findViewById(R.id.more_info_origin);
+            mapsButton.setVisibility(View.GONE);
         }
 
         //new map on button click

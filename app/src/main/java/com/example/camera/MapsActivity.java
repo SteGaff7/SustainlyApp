@@ -1,5 +1,7 @@
 package com.example.camera;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -12,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -57,13 +60,14 @@ import java.io.Writer;
 public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback {
 
+    private Polyline line;
     private Toolbar toolbar;
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
     private LatLng latLng;
     LatLng currLoc;
-
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
@@ -71,9 +75,9 @@ public class MapsActivity extends AppCompatActivity
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-    // A default location (Sydney, Australia) and default zoom to use when location permission is
+    // A default location (dublin irelND) and default zoom to use when location permission is
     // not granted.
-    private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
+    private final LatLng mDefaultLocation = new LatLng(53.3498,   -6.2603);
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
@@ -86,13 +90,6 @@ public class MapsActivity extends AppCompatActivity
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
-
-    // Used for selecting the current place.
-    private static final int M_MAX_ENTRIES = 5;
-    private String[] mLikelyPlaceNames;
-    private String[] mLikelyPlaceAddresses;
-    private String[] mLikelyPlaceAttributions;
-    private LatLng[] mLikelyPlaceLatLngs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -276,7 +273,7 @@ public class MapsActivity extends AppCompatActivity
         updateLocationUI();
 
         // Get the current location of the device and set the position of the map.
-        getDeviceLocation();
+
 
     }
 
@@ -297,43 +294,21 @@ public class MapsActivity extends AppCompatActivity
                         if (task.isSuccessful()) {
                             // Set the map's camera position to the current location of the device.
                             mLastKnownLocation = task.getResult();
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(mLastKnownLocation.getLatitude(),
-                                            mLastKnownLocation.getLongitude()), 4));
-                            currLoc = new LatLng(mLastKnownLocation.getLatitude(),
-                                    mLastKnownLocation.getLongitude());
-                            Polyline line = mMap.addPolyline(new PolylineOptions()
-                                    .add(latLng, currLoc)
-                                    .width(10)
-                                    .color(Color.BLUE));
-                            Location startLoc = new Location("point A");
-                            startLoc.setLatitude(latLng.latitude);
-                            startLoc.setLongitude(latLng.longitude);
-                            float distance = (startLoc.distanceTo(mLastKnownLocation)) / 1000;
-                            float co2 = 0;
-                            if (distance >= 200) {
-                                co2 = distance * 135;
-                            } else {
-                                co2 = distance * 142;
-                            }
-                            co2 = Math.round(co2);
-                            distance = Math.round(distance);
-                            TextView tv1 = (TextView) findViewById(R.id.infoText);
-                            String setText =
-                                    "Distance Food Traveled: " + distance + " km\n" +
-                                            "CO2 released " + co2 / 1000 + "kg of CO2\n" +
-                                            "Buy locally to increase sustainability!";
-                            tv1.setText(setText);
-                        } else {
-                            Log.d(TAG, "Current location is null. Using defaults.");
-                            Log.e(TAG, "Exception: %s", task.getException());
-                            mMap.moveCamera(CameraUpdateFactory
-                                    .newLatLngZoom(mDefaultLocation, 4));
-                            // currLoc = mDefaultLocation;
-                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                            buildMap(true, mLastKnownLocation);
                         }
                     }
                 });
+            }
+            else {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                        new LatLng(mDefaultLocation.latitude,
+                                mDefaultLocation.longitude), 4));
+                currLoc = new LatLng(mDefaultLocation.latitude,
+                        mDefaultLocation.longitude);
+                Location myLoc = new Location("null");
+                myLoc.setLatitude(mDefaultLocation.latitude);
+                myLoc.setLongitude(mDefaultLocation.longitude);
+                buildMap(false, myLoc);
             }
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
@@ -345,19 +320,40 @@ public class MapsActivity extends AppCompatActivity
      * Prompts the user for permission to use the device location.
      */
     private void getLocationPermission() {
-        /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.title_location_permission)
+                        .setMessage(R.string.text_location_permission)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(MapsActivity.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        })
+                        .create()
+                        .show();
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+        }
+        else {
             mLocationPermissionGranted = true;
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
 
@@ -370,15 +366,20 @@ public class MapsActivity extends AppCompatActivity
                                            @NonNull int[] grantResults) {
         mLocationPermissionGranted = false;
         switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
+                    updateLocationUI();
+                }
+                else {
+                    mLocationPermissionGranted = false;
+                    updateLocationUI();
                 }
             }
         }
-        updateLocationUI();
     }
 
     /**
@@ -392,14 +393,78 @@ public class MapsActivity extends AppCompatActivity
             if (mLocationPermissionGranted) {
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                getDeviceLocation();
             } else {
                 mMap.setMyLocationEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
                 mLastKnownLocation = null;
-                getLocationPermission();
+                getDeviceLocation();
             }
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
+    private void buildMap(boolean locAllowed, Location myLoc) {
+        if (locAllowed) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(myLoc.getLatitude(),
+                            myLoc.getLongitude()), 4));
+            currLoc = new LatLng(myLoc.getLatitude(),
+                    myLoc.getLongitude());
+            if (line != null) {
+                line.remove();
+            }
+            line = mMap.addPolyline(new PolylineOptions()
+                    .add(latLng, currLoc)
+                    .width(10)
+                    .color(Color.BLUE));
+            Location startLoc = new Location("point A");
+            startLoc.setLatitude(latLng.latitude);
+            startLoc.setLongitude(latLng.longitude);
+            float distance = (startLoc.distanceTo(myLoc)) / 1000;
+            float co2 = 0;
+            if (distance >= 200) {
+                co2 = distance * 135;
+            } else {
+                co2 = distance * 142;
+            }
+            co2 = Math.round(co2/1000);
+            distance = Math.round(distance);
+            TextView tv1 = (TextView) findViewById(R.id.infoText);
+            String setText =
+                    "Distance Food Traveled: " + distance + " km\n" +
+                            "CO2 released: " + co2  + "kg of CO2\n" +
+                            "Buy locally to increase sustainability!";
+            tv1.setText(setText);
+
+        } else {
+            if (line != null) {
+                line.remove();
+            }
+             line = mMap.addPolyline(new PolylineOptions()
+                    .add(latLng, currLoc)
+                    .width(10)
+                    .color(Color.BLUE));
+            Location startLoc = new Location("point A");
+            startLoc.setLatitude(latLng.latitude);
+            startLoc.setLongitude(latLng.longitude);
+            float distance = (startLoc.distanceTo(myLoc)) / 1000;
+            float co2 = 0;
+            if (distance >= 200) {
+                co2 = distance * 135;
+            } else {
+                co2 = distance * 142;
+            }
+            co2 = Math.round(co2/1000);
+            distance = Math.round(distance);
+            TextView tv1 = (TextView) findViewById(R.id.infoText);
+            String setText =
+                    "Distance Food Traveled: " + distance + " km\n" +
+                            "CO2 released: " + co2  + "kg of CO2\n" +
+                            "Buy locally to increase sustainability!";
+            tv1.setText(setText);
+
         }
     }
 
