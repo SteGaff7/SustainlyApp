@@ -19,7 +19,7 @@ import com.example.camera.util.Product;
 
 import java.util.ArrayList;
 
-public class SearchItems extends AppCompatActivity implements ProductAdapter.ListItemClickListener {
+public class SearchItemsActivity extends AppCompatActivity implements ProductAdapter.ListItemClickListener {
     ArrayList<Product> products;
     private Toast mToast;
 
