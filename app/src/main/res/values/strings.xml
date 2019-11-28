@@ -3,12 +3,12 @@
     <string name="results_from">Results from </string>
     <string name="manu">Manufacturing Info</string>
     <string name="product">Product</string>
-    <string name="origin">Origin of Ingred</string>
+    <string name="origin">Origin of Ingredients</string>
     <string name="Placeholder">Placeholder</string>
     <string name="choose_cat">Choose a Category</string>
     <string name="choose_item">Choose an Item</string>
     <string name="brand_info">Product Information</string>
-    <string name="manu_info">Manufactorer Information</string>
+    <string name="manu_info">Manufacturer Information</string>
     <string name="distance">How far has your product travelled?</string>
     <string name="carbon">Know your Carbon Footprint</string>
     <string name="more_info_manu">The company\'s headquarters is in </string>
