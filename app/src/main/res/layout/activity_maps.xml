@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="10dp"
-            android:text="You are not a paid user."
+            android:text="Loading..."
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/darkBlue"/>
