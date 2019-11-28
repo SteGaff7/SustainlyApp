@@ -73,7 +73,7 @@ public class MapsActivity extends AppCompatActivity
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-    // A default location (dublin irelND) and default zoom to use when location permission is
+    // A default location (dublin, ireland) and default zoom to use when location permission is
     // not granted.
     private final LatLng mDefaultLocation = new LatLng(53.3498,   -6.2603);
     private static final int DEFAULT_ZOOM = 15;
@@ -110,6 +110,7 @@ public class MapsActivity extends AppCompatActivity
         InputStream is = getResources().openRawResource(R.raw.countries);
         Writer writer = new StringWriter();
         char[] buffer = new char[1024];
+        //read in the JSON file
         try {
             Reader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             int n;
@@ -128,6 +129,7 @@ public class MapsActivity extends AppCompatActivity
                 Log.e("App", "IO error");
             }
         }
+        //get the JSON objects
         String jsonString = writer.toString();
         JSONArray jsonArray = new JSONArray();
         String latitude = "";
@@ -139,6 +141,8 @@ public class MapsActivity extends AppCompatActivity
             Log.e("App", "JSON error1");
         }
         boolean found = false;
+        //try to find the country passed in from previous activity, if it's not found, set a
+        // default lat lng
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject country = jsonArray.getJSONObject(i);
@@ -325,13 +329,12 @@ public class MapsActivity extends AppCompatActivity
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
+            // If the user has clicked deny permission before, but has not clicked "don't show
+            // again"
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
 
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
+                // Show an explanation to the user, after the user
                 // sees the explanation, try again to request the permission.
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.title_location_permission)
@@ -375,8 +378,14 @@ public class MapsActivity extends AppCompatActivity
                         == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
                     updateLocationUI();
-                }
-                else {
+                } else {
+                    // Lets the user know that denying permission sets a default location
+                    new AlertDialog.Builder(this)
+                            .setTitle("Permission Denied")
+                            .setMessage("You've denied location permission, which means that your" +
+                                    " default location is going to be set to Dublin, Ireland.")
+                            .create()
+                            .show();
                     mLocationPermissionGranted = false;
                     updateLocationUI();
                 }
