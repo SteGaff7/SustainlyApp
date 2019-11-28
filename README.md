@@ -2,7 +2,7 @@ Please read through the following points before using the application:
 
 1. Run this application using Android Studio API version 28+
 2. The home screen will give you 3 options which represent the 3 main user flows which should be reasonably self-explanatory. You have the option to scan a barcode (using the camera), enter a barcode by typing it in manually or search through a database of products organised by category. For a further explanation of the  of how the application works, refer to the accompanying paper: “Sustainly, a sustainability focused Android Application”
-3. If using an emulator to test the application, note that the geolocation features will not work correctly and the application will detect an incorrect location. These features will work if running the app on a phone.
+3. If using an emulator to test the application, note that the geolocation features will not work correctly as the emulator defaults to San Francisco, California. You can change this in the emulator settings. These features will work properly if running the app on a phone.
 4. If you would like enter a few barcodes as a test, here is a list of a few that are currently in the application’s database:
 
         Barcode | Product | Manufacturing Location | Origin of ingredients | Category
