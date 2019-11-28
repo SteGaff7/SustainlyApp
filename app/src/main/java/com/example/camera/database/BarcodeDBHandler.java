@@ -63,6 +63,8 @@ public class BarcodeDBHandler extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('4053400211411','1','Irish Red Ale - Kilkenny','Ireland', 'Ireland', 'Beverages')");
         db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('8076800195057','1','Spaghetti - Barilla','Italy', 'Italy', 'Pasta')");
         db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('4001724819905','1','Ristorante: Vegetarian Pizza','Germany', 'Italy, Germany', 'Pizza')");
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('5011096004174','1','Tayto Popcorn','Ireland', 'Ireland', 'Snacks')");
+        db.execSQL("INSERT INTO " + ProductEntry.TABLE_PRODUCTS + " VALUES('7622210808981','1','Cadbury Shortcake Snack','United Kingdom', 'United Kingdom', 'Snacks')");
     }
 
     /**
